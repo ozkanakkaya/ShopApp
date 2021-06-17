@@ -1,12 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product</title>
-</head>
-<body>
-    product/list
-</body>
-</html>
+@model ProductViewModels
+
+@{
+    var popularClass = Model.Products.Count > 2 ? "popular" : "";
+    var products = Model.Products;
+}
+
+@section Categories
+{
+     @await Component.InvokeAsync("Categories")
+}
+
+@if (products.Count == 0)
+{
+    @await Html.PartialAsync("_noproduct")
+}
+else
+{
+    <div class="row">
+
+        @foreach (var product in products)
+        {
+            <div class="col-md-3">
+                @await Html.PartialAsync("_product",product)
+            </div>
+        }
+    </div>
+}
