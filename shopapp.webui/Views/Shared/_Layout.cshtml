@@ -12,56 +12,58 @@
 
 <body>
 
-@if (IsSectionDefined("MessageBox"))
-{
-    @RenderSection("MessageBox",false)
-}
-else
-{
-    <div class="alert alert-primary text-center m-0">
-        Hoşgeldiniz
-    </div>
-}
-
-
-@await Html.PartialAsync("_navbar")
-<partial name="_header">
-
-    <main class="mb-3">
-        <div class="container">
-
-            @if (IsSectionDefined("Categories"))  @*Categories tanımlaması var mı? *@
-            {
-                <div class="row">
-                    <div class="col-md-3">
-                        @RenderSection("Categories",false) @*Layoutu kullanan sayfadaki section tanımı buraya yerleşir*@
-                    </div>
-                    <div class="col-md-9">
-                        @RenderBody() @*Layoutu kullanan sayfanın içereği buraya yerleşir*@
-                    </div>
-                </div>
-            }
-            else
-            {
-                <div class="row">
-                    <div class="col-md-12">
-                        @RenderBody()
-                    </div>
-                </div>
-            }
-
+    @if (IsSectionDefined("MessageBox"))
+    {
+        @RenderSection("MessageBox",false)
+    }
+    else
+    {
+        <div class="alert alert-primary text-center m-0">
+            Hoşgeldiniz
         </div>
-    </main>
+    }
 
-    <footer class="py-5 bg-dark text-white text-center">
-        Shop App | 2021
-    </footer>
 
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-        crossorigin="anonymous"></script>
-        
-    @RenderSection("Scripts",false)
+    @await Html.PartialAsync("_navbar")
+
+    @RenderSection("Header",false)
+
+
+        <main class="my-3">
+            <div class="container">
+
+                @if (IsSectionDefined("Categories")) @*Categories tanımlaması var mı? *@
+                {
+                    <div class="row">
+                        <div class="col-md-3">
+                            @RenderSection("Categories",false) @*Layoutu kullanan sayfadaki section tanımı buraya yerleşir*@
+                        </div>
+                        <div class="col-md-9">
+                            @RenderBody() @*Layoutu kullanan sayfanın içereği buraya yerleşir*@
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="row">
+                        <div class="col-md-12">
+                            @RenderBody()
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </main>
+
+        <footer class="py-5 bg-dark text-white text-center">
+            Shop App | 2021
+        </footer>
+
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous"></script>
+
+        @RenderSection("Scripts",false)
 </body>
 
 </html>

@@ -54,5 +54,10 @@ namespace shopapp.webui.Controllers
         {
             return View(ProductRepository.GetProductById(id));
         }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
     }
 }
