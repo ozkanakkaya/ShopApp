@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
@@ -24,12 +25,21 @@ namespace shopapp.webui.Controllers
         {
             return "product/about";
         }
-        public IActionResult List(int? id)
+        public IActionResult List(int? id,string q)
         {
+            //QueryString
+            // Console.WriteLine(q);//form ekranında arama kutusuna yazılan bilgi q da tutulur. bu q, _navbar.cshtml de tanımlanmıştır.
+            // Console.WriteLine(HttpContext.Request.Query["q"].ToString());//diğeriyle aynıdır.
+            
             var products = ProductRepository.Products;
             if (id != null)
-            {
+            {//CategoryId sine göre sıralarken gelen id ye ait ürünleri listeler
                 products = products.Where(products => products.CategoryId == id).ToList();
+            }
+
+            if(!string.IsNullOrEmpty(q))
+            {//Formdaki arama kısmına yazılan veriyi içerenleri listeler
+                products = products.Where(i=>i.Name.ToLower().Contains(q.ToLower())||i.Description.ToLower().Contains(q.ToLower())).ToList();
             }
 
             var productViewModels = new ProductViewModels()
