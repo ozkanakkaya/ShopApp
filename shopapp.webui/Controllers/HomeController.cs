@@ -19,10 +19,10 @@ namespace shopapp.webui.Controllers
 
             var products = new List<Product>()
             {
-                new Product{Name="Iphone 8",Price=3000,Description="128GB",IsApproved=true},
-                new Product { Name = "Iphone 7", Price = 2500, Description = "64GB",IsApproved=false },
-                new Product{Name="Iphone 6",Price=2000,Description="32GB",IsApproved=true},
-                new Product { Name = "Iphone 5", Price = 1500, Description = "16GB" }
+                // new Product{Name="Iphone 8",Price=3000,Description="128GB",IsApproved=true},
+                // new Product { Name = "Iphone 7", Price = 2500, Description = "64GB",IsApproved=false },
+                // new Product{Name="Iphone 6",Price=2000,Description="32GB",IsApproved=true},
+                // new Product { Name = "Iphone 5", Price = 1500, Description = "16GB" }
 
             };
 

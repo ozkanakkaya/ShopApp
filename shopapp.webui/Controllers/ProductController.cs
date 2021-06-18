@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using shopapp.webui.Data;
 using shopapp.webui.Models;
@@ -23,21 +24,17 @@ namespace shopapp.webui.Controllers
         {
             return "product/about";
         }
-        public IActionResult List()
+        public IActionResult List(int? id)
         {
-            var products = new List<Product>()
+            var products = ProductRepository.Products;
+            if (id != null)
             {
-                new Product{Name="Iphone 8",Price=3000,Description="128GB",IsApproved=true},
-                new Product { Name = "Iphone 7", Price = 2500, Description = "64GB",IsApproved=false },
-                new Product{Name="Iphone 6",Price=2000,Description="32GB",IsApproved=true},
-                new Product { Name = "Iphone 5", Price = 1500, Description = "16GB" }
-
-            };
-
+                products = products.Where(products => products.CategoryId == id).ToList();
+            }
 
             var productViewModels = new ProductViewModels()
             {
-                Products = ProductRepository.Products
+                Products = products
             };
 
             return View(productViewModels);
