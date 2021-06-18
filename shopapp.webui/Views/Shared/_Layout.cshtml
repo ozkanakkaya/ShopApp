@@ -27,7 +27,7 @@ else
 @await Html.PartialAsync("_navbar")
 <partial name="_header">
 
-    <main>
+    <main class="mb-3">
         <div class="container">
 
             @if (IsSectionDefined("Categories"))  @*Categories tanımlaması var mı? *@
@@ -52,6 +52,10 @@ else
 
         </div>
     </main>
+
+    <footer class="py-5 bg-dark text-white text-center">
+        Shop App | 2021
+    </footer>
 
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"

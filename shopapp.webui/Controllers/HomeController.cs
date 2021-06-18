@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using shopapp.webui.Data;
 using shopapp.webui.Models;
 
 namespace shopapp.webui.Controllers
@@ -27,7 +28,7 @@ namespace shopapp.webui.Controllers
 
             var productViewModels = new ProductViewModels()
             {
-                Products = products
+                Products = ProductRepository.Products
             };
 
             return View(productViewModels);

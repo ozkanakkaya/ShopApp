@@ -2,11 +2,12 @@
 
 <div class="card">
     <img class="card-img-top"
-        src="~/images/1.jpg"
+        src="~/images/@Model.ImageUrl"
         alt="">
     <div class="card-body">
         <h5 class="card-title">@Model.Name</h5>
         <p class="card-text">@Model.Description</p>
-        <a href="" class="btn btn-primary">İncele</a>
+         <a asp-controller="Product" asp-action="Details" asp-route-id="@Model.ProductId" class="btn btn-primary">İncele</a>
+         @*href="/product/details/@Model.ProductId" *@
     </div>
 </div>

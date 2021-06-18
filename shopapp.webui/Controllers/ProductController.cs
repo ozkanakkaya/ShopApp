@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using shopapp.webui.Data;
 using shopapp.webui.Models;
 
 namespace shopapp.webui.Controllers
@@ -36,7 +37,7 @@ namespace shopapp.webui.Controllers
 
             var productViewModels = new ProductViewModels()
             {
-                Products = products
+                Products = ProductRepository.Products
             };
 
             return View(productViewModels);
@@ -44,16 +45,7 @@ namespace shopapp.webui.Controllers
 
         public IActionResult Details(int id)
         {
-            // ViewBag.Name="Huawei P40";
-            // ViewBag.Price="6000";
-            // ViewBag.Description="128 GB";
-
-            var p = new Product();
-            p.Name = "Huawei P40";
-            p.Price = 6000;
-            p.Description = "128 GB";
-
-            return View(p);
+            return View(ProductRepository.GetProductById(id));
         }
     }
 }
