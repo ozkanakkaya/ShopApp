@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using shopapp.webui.Data;
 using shopapp.webui.Models;
 
@@ -57,6 +58,9 @@ namespace shopapp.webui.Controllers
 
         public IActionResult Create()
         {
+            //Bu viewbag ile Create.cshtml view ına bir select list gönderdik. 
+            //Bu SelectList viewda category seçiminde Value alanına CategoryId, Text alanına ise Name bilgisini verecek.
+            ViewBag.Categories= new SelectList(CategoryRepository.Categories,"CategoryId","Name");
             return View();
         }
 
