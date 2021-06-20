@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using shopapp.webui.Models;
@@ -39,6 +40,22 @@ namespace shopapp.webui.Data
         public static Product GetProductById(int id)
         {
             return _products.FirstOrDefault(p => p.ProductId == id);
+        }
+
+        public static void EditProduct(Product product)
+        {
+            foreach (var p in _products)
+            {
+                if (p.ProductId == product.ProductId)
+                {
+                    p.Name = product.Name;
+                    p.Price = product.Price;
+                    p.ImageUrl = product.ImageUrl;
+                    p.Description = product.Description;
+                    p.IsApproved = product.IsApproved;
+                    p.CategoryId = product.CategoryId;
+                }
+            }
         }
     }
 }
