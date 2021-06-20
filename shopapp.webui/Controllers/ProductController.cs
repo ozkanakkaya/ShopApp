@@ -61,14 +61,22 @@ namespace shopapp.webui.Controllers
             //Bu viewbag ile Create.cshtml view ına bir select list gönderdik. 
             //Bu SelectList viewda category seçiminde Value alanına CategoryId, Text alanına ise Name bilgisini verecek.
             ViewBag.Categories = new SelectList(CategoryRepository.Categories, "CategoryId", "Name");
-            return View();
+            return View(new Product());
         }
 
         [HttpPost]
         public IActionResult Create(Product p)
         {
-            ProductRepository.AddProduct(p);
-            return RedirectToAction("List");
+            if (ModelState.IsValid)
+            {
+                ProductRepository.AddProduct(p);
+                return RedirectToAction("List");
+            }
+
+            ViewBag.Categories = new SelectList(CategoryRepository.Categories, "CategoryId", "Name");
+
+            return View(p);
+
         }
 
         public IActionResult Edit(int id)
@@ -80,8 +88,15 @@ namespace shopapp.webui.Controllers
         [HttpPost]
         public IActionResult Edit(Product p)
         {
-            ProductRepository.EditProduct(p);
-            return RedirectToAction("List");
+            if (ModelState.IsValid)
+            {
+                ProductRepository.EditProduct(p);
+                return RedirectToAction("List");
+            }
+
+            ViewBag.Categories = new SelectList(CategoryRepository.Categories, "CategoryId", "Name");
+
+            return View(p);
         }
     }
 }
