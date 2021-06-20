@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace shopapp.entity
 {
     public class Product
