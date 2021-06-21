@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
+using shopapp.business.Abstract;
+using shopapp.business.Concrete;
 using shopapp.data.Abstract;
 using shopapp.data.Concrete.EfCore;
 
@@ -21,6 +23,7 @@ namespace shopapp.webui
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IProductRepository, EfCoreProductRepository>();//1. parametre çağırıldığında 2. parametreden nesne üretip gönderir.
+            services.AddScoped<IProductService, ProductManager>();
             services.AddControllersWithViews();//projeye MVC yap�s�n� getirir
         }
 

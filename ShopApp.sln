@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "shopapp.entity", "shopapp.e
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "shopapp.webui", "shopapp.webui\shopapp.webui.csproj", "{EA7C567B-2AE4-4B67-B626-8FAA2BAAB98E}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "shopapp.business", "shopapp.business\shopapp.business.csproj", "{BD1BB28B-3A63-4E02-8F81-97B4C9F467B1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,18 @@ Global
 		{EA7C567B-2AE4-4B67-B626-8FAA2BAAB98E}.Release|x64.Build.0 = Release|Any CPU
 		{EA7C567B-2AE4-4B67-B626-8FAA2BAAB98E}.Release|x86.ActiveCfg = Release|Any CPU
 		{EA7C567B-2AE4-4B67-B626-8FAA2BAAB98E}.Release|x86.Build.0 = Release|Any CPU
+		{BD1BB28B-3A63-4E02-8F81-97B4C9F467B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD1BB28B-3A63-4E02-8F81-97B4C9F467B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD1BB28B-3A63-4E02-8F81-97B4C9F467B1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BD1BB28B-3A63-4E02-8F81-97B4C9F467B1}.Debug|x64.Build.0 = Debug|Any CPU
+		{BD1BB28B-3A63-4E02-8F81-97B4C9F467B1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BD1BB28B-3A63-4E02-8F81-97B4C9F467B1}.Debug|x86.Build.0 = Debug|Any CPU
+		{BD1BB28B-3A63-4E02-8F81-97B4C9F467B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD1BB28B-3A63-4E02-8F81-97B4C9F467B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD1BB28B-3A63-4E02-8F81-97B4C9F467B1}.Release|x64.ActiveCfg = Release|Any CPU
+		{BD1BB28B-3A63-4E02-8F81-97B4C9F467B1}.Release|x64.Build.0 = Release|Any CPU
+		{BD1BB28B-3A63-4E02-8F81-97B4C9F467B1}.Release|x86.ActiveCfg = Release|Any CPU
+		{BD1BB28B-3A63-4E02-8F81-97B4C9F467B1}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
