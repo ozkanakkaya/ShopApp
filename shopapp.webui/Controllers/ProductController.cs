@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using shopapp.webui.Data;
-using shopapp.webui.Models;
+using shopapp.entity;
 
 namespace shopapp.webui.Controllers
 {
@@ -32,48 +31,49 @@ namespace shopapp.webui.Controllers
             // Console.WriteLine(q);//form ekranında arama kutusuna yazılan bilgi q da tutulur. bu q, _navbar.cshtml de tanımlanmıştır.
             // Console.WriteLine(HttpContext.Request.Query["q"].ToString());//diğeriyle aynıdır.
 
-            var products = ProductRepository.Products;
-            if (id != null)
-            {//CategoryId sine göre sıralarken gelen id ye ait ürünleri listeler
-                products = products.Where(products => products.CategoryId == id).ToList();
-            }
+            //var products = ProductRepository.Products;
+            //if (id != null)
+            //{//CategoryId sine göre sıralarken gelen id ye ait ürünleri listeler
+            //    products = products.Where(products => products.CategoryId == id).ToList();
+            //}
 
-            if (!string.IsNullOrEmpty(q))
-            {//Formdaki arama kısmına yazılan veriyi içerenleri listeler
-                products = products.Where(i => i.Name.ToLower().Contains(q.ToLower()) || i.Description.ToLower().Contains(q.ToLower())).ToList();
-            }
+            //if (!string.IsNullOrEmpty(q))
+            //{//Formdaki arama kısmına yazılan veriyi içerenleri listeler
+            //    products = products.Where(i => i.Name.ToLower().Contains(q.ToLower()) || i.Description.ToLower().Contains(q.ToLower())).ToList();
+            //}
 
-            var productViewModels = new ProductViewModels()
-            {
-                Products = products
-            };
+            //var productViewModels = new ProductViewModels()
+            //{
+            //    Products = products
+            //};
 
-            return View(productViewModels);
+            //return View(productViewModels);
+            return View();
         }
 
         public IActionResult Details(int id)
         {
-            return View(ProductRepository.GetProductById(id));
+            return View();
         }
 
         public IActionResult Create()
         {
             //Bu viewbag ile Create.cshtml view ına bir select list gönderdik. 
             //Bu SelectList viewda category seçiminde Value alanına CategoryId, Text alanına ise Name bilgisini verecek.
-            ViewBag.Categories = new SelectList(CategoryRepository.Categories, "CategoryId", "Name");
+            //ViewBag.Categories = new SelectList(CategoryRepository.Categories, "CategoryId", "Name");
             return View(new Product());
         }
 
         [HttpPost]
         public IActionResult Create(Product p)
         {
-            if (ModelState.IsValid)
-            {
-                ProductRepository.AddProduct(p);
-                return RedirectToAction("List");
-            }
+            //if (ModelState.IsValid)
+            //{
+            //    ProductRepository.AddProduct(p);
+            //    return RedirectToAction("List");
+            //}
 
-            ViewBag.Categories = new SelectList(CategoryRepository.Categories, "CategoryId", "Name");
+            //ViewBag.Categories = new SelectList(CategoryRepository.Categories, "CategoryId", "Name");
 
             return View(p);
 
@@ -81,8 +81,9 @@ namespace shopapp.webui.Controllers
 
         public IActionResult Edit(int id)
         {
-            ViewBag.Categories = new SelectList(CategoryRepository.Categories, "CategoryId", "Name");
-            return View(ProductRepository.GetProductById(id));
+            //ViewBag.Categories = new SelectList(CategoryRepository.Categories, "CategoryId", "Name");
+            //return View(ProductRepository.GetProductById(id));
+            return View();
         }
 
         [HttpPost]
@@ -90,11 +91,11 @@ namespace shopapp.webui.Controllers
         {
             if (ModelState.IsValid)
             {
-                ProductRepository.EditProduct(p);
+                //ProductRepository.EditProduct(p);
                 return RedirectToAction("List");
             }
 
-            ViewBag.Categories = new SelectList(CategoryRepository.Categories, "CategoryId", "Name");
+            //ViewBag.Categories = new SelectList(CategoryRepository.Categories, "CategoryId", "Name");
 
             return View(p);
         }
@@ -102,7 +103,7 @@ namespace shopapp.webui.Controllers
         [HttpPost]
         public IActionResult Delete(int ProductId)
         {
-            ProductRepository.DeleteProduct(ProductId);
+            //ProductRepository.DeleteProduct(ProductId);
             return RedirectToAction("List");
         }
     }

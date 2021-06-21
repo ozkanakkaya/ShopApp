@@ -13,5 +13,11 @@ namespace shopapp.data.Concrete.EfCore
             optionsBuilder.UseSqlite("Data Source=shopDb");
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //ProductCategory tablosunun birincil anahtarlarý verildi
+            modelBuilder.Entity<ProductCategory>()
+                .HasKey(c => new { c.CategoryId, c.ProductId });
+        }
     }
 }
