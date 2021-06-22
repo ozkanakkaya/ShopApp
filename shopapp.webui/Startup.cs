@@ -37,8 +37,9 @@ namespace shopapp.webui
                 RequestPath="/modules"
             });
 
-            if (env.IsDevelopment())
+            if (env.IsDevelopment())//ortam değişkenlerine bakar. eğer true dönerse uygulama geliştirme aşamasındayız
             {
+                SeedDatabase.Seed();//Oluşturduğumuz fake datadır.
                 app.UseDeveloperExceptionPage();
             }
 
