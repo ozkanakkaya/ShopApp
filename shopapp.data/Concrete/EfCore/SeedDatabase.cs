@@ -39,9 +39,9 @@ namespace shopapp.data.Concrete.EfCore
         {
             new Product(){Name="Huawei P20",Price=2500,ImageUrl="1.jpg",Description="32GB 2GB Ram",IsApproved=true},
             new Product(){Name="Huawei P30",Price=3000,ImageUrl="2.jpg",Description="64GB 2GB Ram",IsApproved=true},
-            new Product(){Name="Huawei P40",Price=3500,ImageUrl="3.jpg",Description="128GB           3GBRam",IsApproved=true},
-            new Product(){Name="Huawei Smart",Price=4000,ImageUrl="4.jpg",Description="128GB         4GBRam",IsApproved=true},
-           new Product(){Name="Huawei P50",Price=4500,ImageUrl="1.jpg",Description="256GB        6GBRam",IsApproved=true}
+            new Product(){Name="Huawei P40",Price=3500,ImageUrl="3.jpg",Description="128GB           3GB Ram",IsApproved=true},
+            new Product(){Name="Huawei Smart",Price=4000,ImageUrl="4.jpg",Description="128GB         4GB Ram",IsApproved=true},
+           new Product(){Name="Huawei P50",Price=4500,ImageUrl="1.jpg",Description="256GB        6GB Ram",IsApproved=true}
         };
     }
 }
