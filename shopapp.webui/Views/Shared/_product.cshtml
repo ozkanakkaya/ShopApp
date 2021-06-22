@@ -4,17 +4,12 @@
     <img class="card-img-top" src="~/images/@Model.ImageUrl" alt="">
     <div class="card-body">
         <h5 class="card-title">@Model.Name</h5>
-        <p class="card-text">@Model.Description</p>
-        @*href="/product/details/@Model.ProductId" *@
-        <a asp-controller="Product" asp-action="Details" asp-route-id="@Model.ProductId"
-            class="btn btn-primary btn-sm">İncele</a>
-        <a asp-controller="Product" asp-action="Edit" asp-route-id="@Model.ProductId"
-            class="btn btn-primary btn-sm">Düzenle</a>
-
-        <form method="POST" action="/product/delete" style="display: inline;">
-            <input type="hidden" name="ProductId" value="@Model.ProductId">
-            <button type="submit" class="btn btn-danger btn-sm">Sil</button>
-
-        </form>
+        <small class="text-muted">
+            <i class="fas fa-lira-sign"></i>@Model.Price
+        </small>
     </div>
-</div>
+    <div class="card-footer text-center">
+        <a asp-controller="shop" asp-action="Details" asp-route-id="@Model.ProductId" class="btn btn-primary btn-sm">Details</a>
+        <a asp-controller="shop" asp-action="addtocart" asp-route-id="@Model.ProductId" class="btn btn-primary btn-sm">Add to Cart</a>
+    </div>
+</div>   
