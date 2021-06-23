@@ -23,6 +23,7 @@ namespace shopapp.data.Concrete.EfCore
                 if (context.Products.Count() == 0)//ürünler sayısı?
                 {
                     context.Products.AddRange(Products);//ürünlerin listesi eklenir
+                    context.AddRange(ProductCategories);
                 }
             }
             context.SaveChanges();
@@ -42,6 +43,18 @@ namespace shopapp.data.Concrete.EfCore
             new Product(){Name="Huawei P40",Price=3500,ImageUrl="3.jpg",Description="128GB           3GB Ram",IsApproved=true},
             new Product(){Name="Huawei Smart",Price=4000,ImageUrl="4.jpg",Description="128GB         4GB Ram",IsApproved=true},
            new Product(){Name="Huawei P50",Price=4500,ImageUrl="1.jpg",Description="256GB        6GB Ram",IsApproved=true}
+        };
+
+        private static ProductCategory[] ProductCategories =
+        {
+            new ProductCategory(){Product=Products[0],Category=Categories[0] },
+            new ProductCategory(){Product=Products[0],Category=Categories[2] },
+            new ProductCategory(){Product=Products[1],Category=Categories[0] },
+            new ProductCategory(){Product=Products[1],Category=Categories[2] },
+            new ProductCategory(){Product=Products[2],Category=Categories[0] },
+            new ProductCategory(){Product=Products[2],Category=Categories[2] },
+            new ProductCategory(){Product=Products[3],Category=Categories[0] },
+            new ProductCategory(){Product=Products[3],Category=Categories[2] }
         };
     }
 }

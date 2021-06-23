@@ -64,12 +64,6 @@ namespace shopapp.data.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Category")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Product")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("CategoryId", "ProductId");
 
                     b.HasIndex("ProductId");
@@ -79,13 +73,13 @@ namespace shopapp.data.Migrations
 
             modelBuilder.Entity("shopapp.entity.ProductCategory", b =>
                 {
-                    b.HasOne("shopapp.entity.Category", null)
+                    b.HasOne("shopapp.entity.Category", "Category")
                         .WithMany("ProductCategories")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("shopapp.entity.Product", null)
+                    b.HasOne("shopapp.entity.Product", "Product")
                         .WithMany("ProductCategories")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)

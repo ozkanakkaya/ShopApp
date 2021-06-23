@@ -42,8 +42,6 @@ namespace shopapp.data.Migrations
                 {
                     CategoryId = table.Column<int>(nullable: false),
                     ProductId = table.Column<int>(nullable: false),
-                    Category = table.Column<int>(nullable: false),
-                    Product = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

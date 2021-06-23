@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using shopapp.business.Abstract;
 using shopapp.entity;
+using shopapp.webui.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,13 +34,16 @@ namespace shopapp.webui.Controllers
             {
                 return NotFound();
             }
-            Product product = _productService.GetById((int)id);
+            Product product = _productService.GetProductDetails((int)id);//Product, kategori bilgileriyle geliyor.
 
             if (product==null)
             {
                 return NotFound();
             }
-            return View(product);
+            return View(new ProductDetailModel { 
+                Product=product,
+                Categories=product.ProductCategories.Select(i=>i.Category).ToList()//Burada, Select ile ProductCategories daki her bir eleman i dir. Her i nin Category sini Listeye atacak. Bunu foreach gibi düşünebiliriz.
+            });
         }
     }
 }
