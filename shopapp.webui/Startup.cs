@@ -36,9 +36,10 @@ namespace shopapp.webui
         {
             app.UseStaticFiles();//wwwroot
 
-            app.UseStaticFiles(new StaticFileOptions{//klasöre erişim sağlamak için...
-                FileProvider=new PhysicalFileProvider( Path.Combine(Directory.GetCurrentDirectory(),"node_modules")),
-                RequestPath="/modules"
+            app.UseStaticFiles(new StaticFileOptions
+            {//klasöre erişim sağlamak için...
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "node_modules")),
+                RequestPath = "/modules"
             });
 
             if (env.IsDevelopment())//ortam değişkenlerine bakar. eğer true dönerse uygulama geliştirme aşamasındayız
@@ -52,8 +53,14 @@ namespace shopapp.webui
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
+                    name: "products",//Route ismi
+                    pattern: "products/{category?}",//product linki/opsiyonel olarak category bilgisi
+                    defaults: new { controller = "Shop", action = "list" }
+                    );
+
+                endpoints.MapControllerRoute(
                         name: "default",
-                        pattern:"{controller=Home}/{action=Index}/{id?}"
+                        pattern: "{controller=Home}/{action=Index}/{id?}"
                     );
             });
         }
