@@ -8,7 +8,7 @@ namespace shopapp.business.Abstract
     public interface IProductService
     {
         Product GetById(int id);
-        Product GetProductDetails(int id);
+        Product GetProductDetails(string url);
         List<Product> GetProductsByCategory(string name);
 
         List<Product> GetAll();
