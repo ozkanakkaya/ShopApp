@@ -10,7 +10,7 @@ namespace shopapp.data.Concrete.EfCore
     {
         public List<Product> GetPopularProducts()
         {
-            using (var context=new ShopContext())
+            using (var context = new ShopContext())
             {
                 return context.Products.ToList();
             }
@@ -28,11 +28,11 @@ namespace shopapp.data.Concrete.EfCore
             }
         }
 
-        public List<Product> GetProductsByCategory(string name)
+        public List<Product> GetProductsByCategory(string name, int page, int pageSize)
         {
             using (var context = new ShopContext())
             {
-                var products= context.Products.AsQueryable();
+                var products = context.Products.AsQueryable();
                 if (!string.IsNullOrEmpty(name))
                 {
                     products = products
@@ -41,7 +41,7 @@ namespace shopapp.data.Concrete.EfCore
                                 .Where(i => i.ProductCategories.Any(a => a.Category.Url == name));
                 }
 
-                return products.ToList();
+                return products.Skip((page - 1) * pageSize).Take(pageSize).ToList();//Skip pas geçer, take ise pas geçtikten sonraki kayýtý ifade eder.
             }
         }
         public List<Product> GetTop5Products()
