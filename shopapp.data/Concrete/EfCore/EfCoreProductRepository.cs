@@ -38,7 +38,7 @@ namespace shopapp.data.Concrete.EfCore
                     products = products
                                 .Include(i => i.ProductCategories)
                                 .ThenInclude(i => i.Category)
-                                .Where(i => i.ProductCategories.Any(a => a.Category.Name.ToLower() == name.ToLower()));
+                                .Where(i => i.ProductCategories.Any(a => a.Category.Url == name));
                 }
 
                 return products.ToList();

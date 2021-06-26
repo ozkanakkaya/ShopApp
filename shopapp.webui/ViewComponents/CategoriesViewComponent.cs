@@ -15,8 +15,8 @@ namespace shopapp.webui.WiewComponents
 
         public IViewComponentResult Invoke()
         {
-            if (RouteData.Values["action"].ToString() == "List")//List sayfasından idyi almak için action List olmalı
-                ViewBag.SelectedCategory = RouteData?.Values["id"];//seçilen menüyü aktif etmek için id yi ViewBag ile tutuyoruz
+            if (RouteData.Values["category"] != null)//List sayfasından idyi almak için category bilgisi olmalı
+                ViewBag.SelectedCategory = RouteData?.Values["category"];//seçilen menüyü aktif etmek için urldeki category bilgisini ViewBag ile tutuyoruz
             return View(_categoryService.GetAll());
 
         }
