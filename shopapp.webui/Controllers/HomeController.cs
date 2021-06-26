@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using shopapp.business.Abstract;
 using shopapp.data.Abstract;
-using shopapp.webui.WiewModels;
 
 namespace shopapp.webui.Controllers
 {

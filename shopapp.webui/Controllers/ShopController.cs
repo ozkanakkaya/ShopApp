@@ -2,7 +2,6 @@
 using shopapp.business.Abstract;
 using shopapp.entity;
 using shopapp.webui.Models;
-using shopapp.webui.WiewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,16 +20,9 @@ namespace shopapp.webui.Controllers
 
         public IActionResult List(string category,int page=1)
         {
-            const int pageSize = 2;//const ile bu değişken bilgisi aşağıda değiştirilemez.
+            const int pageSize = 3;//const ile bu değişken bilgisi aşağıda değiştirilemez.
             var productViewModel = new ProductListViewModel()
             {
-                PageInfo =new PageInfo()
-                {
-                    TotalItems=_productService.GetCountByCategory(category),
-                    CurrentPage=page,
-                    ItemsPerPage=pageSize,
-                    CurrentCategory=category
-                },
                 Products = _productService.GetProductsByCategory(category,page,pageSize)
             };
 
