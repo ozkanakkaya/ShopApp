@@ -47,5 +47,50 @@ namespace shopapp.webui.Controllers
             _productService.Create(entity);
             return RedirectToAction("ProductList");
         }
+
+        public IActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var entity = _productService.GetById((int)id);
+
+            if (entity == null)
+            {
+                return NotFound();
+            }
+
+            var model = new ProductModel()
+            {
+                ProductId = entity.ProductId,
+                Name = entity.Name,
+                Url = entity.Url,
+                Price = entity.Price,
+                ImageUrl = entity.ImageUrl,
+                Description = entity.Description
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(ProductModel model)
+        {
+            var entity = _productService.GetById(model.ProductId);
+            if (entity == null)
+            {
+                return NotFound();
+            }
+            entity.Name = model.Name;
+            entity.Price = model.Price;
+            entity.Url = model.Url;
+            entity.ImageUrl = model.ImageUrl;
+            entity.Description = model.Description;
+
+            _productService.Update(entity);
+
+            return RedirectToAction("ProductList");
+        }
     }
 }
