@@ -2,7 +2,7 @@ using shopapp.entity;
 using System;
 using System.Collections.Generic;
 
-namespace shopapp.webui.WiewModels
+namespace shopapp.webui.Models
 {
     public class PageInfo
     {

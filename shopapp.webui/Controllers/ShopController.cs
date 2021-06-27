@@ -2,7 +2,6 @@
 using shopapp.business.Abstract;
 using shopapp.entity;
 using shopapp.webui.Models;
-using shopapp.webui.WiewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
