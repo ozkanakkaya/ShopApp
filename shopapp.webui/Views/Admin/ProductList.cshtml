@@ -11,6 +11,8 @@
                     <td style="width: 100px;">Image</td>
                     <td>Name</td>
                     <td style="width: 20px;">Price</td>
+                    <td style="width: 20px;">Anasayfa</td>
+                    <td style="width: 20px;">Onaylı</td>
                     <td style="width: 150px;"></td>
                 </tr>
             </thead>
@@ -24,6 +26,27 @@
                             <td><img src="~/images/@item.ImageUrl" width="80"></td>
                             <td>@item.Name</td>
                             <td>@item.Price</td>
+                            <td>
+                                @if (item.IsHome)
+                                {
+                                    <i class="fas fa-check-circle btn-success"></i>
+                                }
+                                else
+                                {
+                                    <i class="fas fa-times-circle btn-danger"></i>
+                                }
+                            </td>
+                            <td>
+                                @if (item.IsApproved)
+                                {
+                                    <i class="fas fa-check-circle btn-success"></i>
+                                }
+                                else
+                                {
+                                    <i class="fas fa-times-circle btn-danger"></i>
+                                }
+                            </td>
+
                             <td>
                                 <a href="/admin/products/@item.ProductId" class="btn btn-primary btn-sm mr-2">Edit</a>
                                 <a href="#" class="btn btn-danger btn-sm">Delete</a>
