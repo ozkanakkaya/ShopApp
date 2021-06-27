@@ -54,5 +54,16 @@ namespace shopapp.webui.Controllers
                 Categories=product.ProductCategories.Select(i=>i.Category).ToList()//Burada, Select ile ProductCategories daki her bir eleman i dir. Her i nin Category sini Listeye atacak. Bunu foreach gibi düşünebiliriz.
             });
         }
+
+        public IActionResult Search(string q) 
+        {
+            var productViewModel = new ProductListViewModel()
+            {
+                Products = _productService.GetSearchResult(q)
+            };
+
+            return View(productViewModel);
+
+        }
     }
 }

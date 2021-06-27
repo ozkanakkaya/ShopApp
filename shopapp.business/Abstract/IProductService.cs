@@ -12,7 +12,7 @@ namespace shopapp.business.Abstract
         List<Product> GetProductsByCategory(string name, int page, int pageSize);
         int GetCountByCategory(string category);
         List<Product> GetHomePageProducts();
-
+        List<Product> GetSearchResult(string searchString);
         List<Product> GetAll();
 
         void Create(Product entity);

@@ -53,6 +53,12 @@ namespace shopapp.webui
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
+                    name: "search",
+                    pattern: "search",
+                    defaults: new { controller = "Shop", action = "search" }
+);
+
+                endpoints.MapControllerRoute(
                     name: "productdetails",//Route ismi
                     pattern: "{url}",//product name url ismidir
                     defaults: new { controller = "Shop", action = "details" }
