@@ -92,5 +92,17 @@ namespace shopapp.webui.Controllers
 
             return RedirectToAction("ProductList");
         }
+
+        public IActionResult DeleteProduct(int productId)
+        {
+            var entity = _productService.GetById(productId);
+
+            if (entity != null)
+            {
+                _productService.Delete(entity);
+            }
+
+            return RedirectToAction("ProductList");
+        }
     }
 }
