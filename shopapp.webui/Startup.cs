@@ -53,15 +53,39 @@ namespace shopapp.webui
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                    name: "adminproductlist",
+                    name: "adminproducts",
                     pattern: "admin/products",//bu şekilde bir talep geldiğinde
                     defaults: new { controller = "Admin", action = "ProductList" }//burası çalıştırılacak
                 );
 
+
                 endpoints.MapControllerRoute(
-                    name: "adminproductlist",
+                    name: "adminproductcreate",
+                    pattern: "admin/product/create",//bu şekilde bir talep geldiğinde
+                    defaults: new { controller = "Admin", action = "ProductCreate" }//burası çalıştırılacak
+                );
+                endpoints.MapControllerRoute(
+                    name: "adminproductedit",
                     pattern: "admin/products/{id?}",
-                    defaults: new { controller = "Admin", action = "Edit" }
+                    defaults: new { controller = "Admin", action = "ProductEdit" }
+                );
+
+                endpoints.MapControllerRoute(
+                    name: "admincategories",
+                    pattern: "admin/categories",//bu şekilde bir talep geldiğinde
+                    defaults: new { controller = "Admin", action = "CategoryList" }//burası çalıştırılacak
+                );
+
+                endpoints.MapControllerRoute(
+                    name: "admincategorycreate",
+                    pattern: "admin/categories/create",//bu şekilde bir talep geldiğinde
+                    defaults: new { controller = "Admin", action = "CategoryCreate" }//burası çalıştırılacak
+                );
+
+                endpoints.MapControllerRoute(
+                    name: "admincategoryedit",
+                    pattern: "admin/categories/{id?}",
+                    defaults: new { controller = "Admin", action = "CategoryEdit" }
                 );
 
                 endpoints.MapControllerRoute(

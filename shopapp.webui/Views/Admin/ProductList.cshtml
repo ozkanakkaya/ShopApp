@@ -2,9 +2,10 @@
 
 <div class="row">
     <div class="col-md-12">
-        <h1>Admin Products</h1>
+        <h1 class="h3">Admin Ürünler</h1>
         <hr>
-        <table class="table table-bordered">
+        <a class="btn btn-primary btn-sm" href="/admin/products/create">Ürün Ekle</a>
+        <table class="table table-bordered mt-3">
             <thead>
                 <tr>
                     <td style="width: 30px;">Id</td>
@@ -48,11 +49,11 @@
                             </td>
 
                             <td>
-                                <a href="/admin/products/@item.ProductId" class="btn btn-primary btn-sm mr-2">Edit</a>
+                                <a href="/admin/products/@item.ProductId" class="btn btn-primary btn-sm mr-2">Düzenle</a>
 
                                 <form action="/admin/deleteproduct" method="POST" style="display: inline;">
                                     <input type="hidden" name="productId" value="@item.ProductId">
-                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                    <button type="submit" class="btn btn-danger btn-sm">Sil</button>
                                 </form>
                             </td>
                         </tr>
@@ -61,7 +62,7 @@
                 else
                 {
                     <div class="alert alert-warning">
-                        <h3>No Products</h3>
+                        <h3>Ürün Yok</h3>
                     </div>
                 }
 
