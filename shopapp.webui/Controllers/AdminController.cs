@@ -130,8 +130,10 @@ namespace shopapp.webui.Controllers
         }
 
         [HttpPost]
-        public IActionResult ProductEdit(ProductModel model)
+        public IActionResult ProductEdit(ProductModel model, int[] categoryIds)
         {
+            //categoryIds parametresine formdan checked olan checkboxların value bilgisi dizi olarak geliyor.
+
             var entity = _productService.GetById(model.ProductId);
             if (entity == null)
             {
@@ -143,7 +145,7 @@ namespace shopapp.webui.Controllers
             entity.ImageUrl = model.ImageUrl;
             entity.Description = model.Description;
 
-            _productService.Update(entity);
+            _productService.Update(entity, categoryIds);
 
             var msg = new AlertMessage()
             {

@@ -19,6 +19,6 @@ namespace shopapp.business.Abstract
         void Create(Product entity);
         void Update(Product entity);
         void Delete(Product entity);
-
+        void Update(Product entity, int[] categoryIds);
     }
 }
