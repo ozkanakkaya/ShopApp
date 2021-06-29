@@ -61,7 +61,7 @@ namespace shopapp.webui
 
                 endpoints.MapControllerRoute(
                     name: "adminproductcreate",
-                    pattern: "admin/product/create",//bu şekilde bir talep geldiğinde
+                    pattern: "admin/products/create",//bu şekilde bir talep geldiğinde
                     defaults: new { controller = "Admin", action = "ProductCreate" }//burası çalıştırılacak
                 );
                 endpoints.MapControllerRoute(

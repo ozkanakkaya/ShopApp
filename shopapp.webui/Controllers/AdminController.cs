@@ -47,27 +47,35 @@ namespace shopapp.webui.Controllers
         [HttpPost]
         public IActionResult ProductCreate(ProductModel model)
         {
-            var entity = new Product()
+            if (ModelState.IsValid)//ProductModel de belirttiğimiz tüm kriteler doğruysa
             {
-                Name = model.Name,
-                Url = model.Url,
-                Price = model.Price,
-                Description = model.Description,
-                ImageUrl = model.ImageUrl
-            };
+                var entity = new Product()
+                {
+                    Name = model.Name,
+                    Url = model.Url,
+                    Price = model.Price,
+                    Description = model.Description,
+                    ImageUrl = model.ImageUrl
+                };
 
-            _productService.Create(entity);
+                _productService.Create(entity);
 
-            var msg = new AlertMessage()
+                var msg = new AlertMessage()
+                {
+                    Message = $"{entity.Name} isimli ürün eklendi!",
+                    AlertType = "success"
+                };
+
+                TempData["message"] = JsonConvert.SerializeObject(msg);
+                //{"Message":"samsung isimli ürün eklendi!","AlertType":"success"} jsonconvert ile bu şekile çevrilir(Layout ta bu bilgi alınacak)
+
+                return RedirectToAction("ProductList");
+            }
+            else
             {
-                Message = $"{entity.Name} isimli ürün eklendi!",
-                AlertType = "success"
-            };
+                return View(model);
+            }
 
-            TempData["message"] = JsonConvert.SerializeObject(msg);
-            //{"Message":"samsung isimli ürün eklendi!","AlertType":"success"} jsonconvert ile bu şekile çevrilir(Layout ta bu bilgi alınacak)
-
-            return RedirectToAction("ProductList");
         }
 
         public IActionResult CategoryCreate()
@@ -133,29 +141,35 @@ namespace shopapp.webui.Controllers
         public IActionResult ProductEdit(ProductModel model, int[] categoryIds)
         {
             //categoryIds parametresine formdan checked olan checkboxların value bilgisi dizi olarak geliyor.
-
-            var entity = _productService.GetById(model.ProductId);
-            if (entity == null)
+            if (ModelState.IsValid)//ProductModel de belirttiğimiz tüm kriteler doğruysa
             {
-                return NotFound();
+                var entity = _productService.GetById(model.ProductId);
+                if (entity == null)
+                {
+                    return NotFound();
+                }
+                entity.Name = model.Name;
+                entity.Price = model.Price;
+                entity.Url = model.Url;
+                entity.ImageUrl = model.ImageUrl;
+                entity.Description = model.Description;
+
+                _productService.Update(entity, categoryIds);
+
+                var msg = new AlertMessage()
+                {
+                    Message = $"{entity.Name} isimli ürün güncellendi!",
+                    AlertType = "success"
+                };
+
+                TempData["message"] = JsonConvert.SerializeObject(msg);
+
+                return RedirectToAction("ProductList");
             }
-            entity.Name = model.Name;
-            entity.Price = model.Price;
-            entity.Url = model.Url;
-            entity.ImageUrl = model.ImageUrl;
-            entity.Description = model.Description;
 
-            _productService.Update(entity, categoryIds);
+            ViewBag.Categories = _categoryService.GetAll();
 
-            var msg = new AlertMessage()
-            {
-                Message = $"{entity.Name} isimli ürün güncellendi!",
-                AlertType = "success"
-            };
-
-            TempData["message"] = JsonConvert.SerializeObject(msg);
-
-            return RedirectToAction("ProductList");
+            return View(model);
         }
 
         public IActionResult CategoryEdit(int? id)

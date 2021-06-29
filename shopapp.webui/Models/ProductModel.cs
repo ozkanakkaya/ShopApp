@@ -11,23 +11,27 @@ namespace shopapp.webui.Models
     {
         public int ProductId { get; set; }
 
-        [Display(Name = "Url", Prompt = "Ürün url'sini giriniz")]
-        public string Url { get; set; }
-
-        [Display(Name="Adı",Prompt ="Ürün adını giriniz")]
+        [Display(Name = "Name", Prompt = "Enter product name")]
+        [Required(ErrorMessage = "Name zorunlu bir alan.")]
+        [StringLength(60, MinimumLength = 5, ErrorMessage = "Ürün ismi 5-10 karakter aralığında olmalıdır.")]
         public string Name { get; set; }
 
-        [Display(Name = "Fiyat", Prompt = "Ürün fiyatını giriniz")]
+        [Required(ErrorMessage = "Url zorunlu bir alan.")]
+        public string Url { get; set; }
+
+        [Required(ErrorMessage = "Price zorunlu bir alan.")]
+        [Range(1, 10000, ErrorMessage = "Price için 1-10000 arasında değer girmelisiniz.")]
         public double? Price { get; set; }
 
-        [Display(Name = "Açıklama", Prompt = "Ürün açıklamasını giriniz")]
+        [Required(ErrorMessage = "Description zorunlu bir alan.")]
+        [StringLength(100, MinimumLength = 5, ErrorMessage = "Description 5-100 karakter aralığında olmalıdır.")]
+
         public string Description { get; set; }
 
-        [Display(Name = "Fotoğraf", Prompt = "Ürün fotoğrafını seçiniz")]
+        [Required(ErrorMessage = "ImageUrl zorunlu bir alan.")]
         public string ImageUrl { get; set; }
         public bool IsApproved { get; set; }
         public bool IsHome { get; set; }
-
         public List<Category> SelectedCategories { get; set; }
     }
 }
