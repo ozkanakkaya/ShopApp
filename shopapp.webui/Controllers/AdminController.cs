@@ -106,7 +106,7 @@ namespace shopapp.webui.Controllers
                 return NotFound();
             }
 
-            var entity = _productService.GetById((int)id);
+            var entity = _productService.GetByIdWithCategories((int)id);
 
             if (entity == null)
             {
@@ -120,8 +120,12 @@ namespace shopapp.webui.Controllers
                 Url = entity.Url,
                 Price = entity.Price,
                 ImageUrl = entity.ImageUrl,
-                Description = entity.Description
+                Description = entity.Description,
+                SelectedCategories = entity.ProductCategories.Select(i => i.Category).ToList()
             };
+
+            ViewBag.Categories = _categoryService.GetAll();
+
             return View(model);
         }
 
