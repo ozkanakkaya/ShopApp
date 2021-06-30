@@ -76,9 +76,19 @@ namespace shopapp.business.Concrete
             _productRepository.Update(entity);
         }
 
-        public void Update(Product entity, int[] categoryIds)
+        public bool Update(Product entity, int[] categoryIds)
         {
-            _productRepository.Update(entity, categoryIds);
+            if (Validation(entity))
+            {
+                if (categoryIds.Length==0)//seçili kategori yoksa
+                {
+                    ErrorMessage += "Ürün için en az bir kategori seçmelisiniz.";
+                    return false;
+                }
+                _productRepository.Update(entity, categoryIds);
+                return true;
+            }
+            return false;
         }
 
         public string ErrorMessage { get; set; }

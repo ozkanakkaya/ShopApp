@@ -129,6 +129,8 @@ namespace shopapp.webui.Controllers
                 Price = entity.Price,
                 ImageUrl = entity.ImageUrl,
                 Description = entity.Description,
+                IsApproved=entity.IsApproved,
+                IsHome=entity.IsHome,
                 SelectedCategories = entity.ProductCategories.Select(i => i.Category).ToList()
             };
 
@@ -153,18 +155,16 @@ namespace shopapp.webui.Controllers
                 entity.Url = model.Url;
                 entity.ImageUrl = model.ImageUrl;
                 entity.Description = model.Description;
+                entity.IsApproved = model.IsApproved;
+                entity.IsHome = model.IsHome;
+               
 
-                _productService.Update(entity, categoryIds);
-
-                var msg = new AlertMessage()
+                if (_productService.Update(entity, categoryIds))//create bize bool tipinde döner
                 {
-                    Message = $"{entity.Name} isimli ürün güncellendi!",
-                    AlertType = "success"
-                };
-
-                TempData["message"] = JsonConvert.SerializeObject(msg);
-
-                return RedirectToAction("ProductList");
+                    CreateMessage($"{entity.Name} ürün kaydı güncellendi!", "success");
+                    return RedirectToAction("ProductList");
+                }//Eğer bu if, false dönerse Validation metodunda ErrorMessage propertysinin içi dolar. 
+                CreateMessage(_productService.ErrorMessage, "danger");
             }
 
             ViewBag.Categories = _categoryService.GetAll();
@@ -287,3 +287,11 @@ namespace shopapp.webui.Controllers
 
     }
 }
+
+//var msg = new AlertMessage()
+//{
+//    Message = $"{entity.Name} isimli ürün güncellendi!",
+//    AlertType = "success"
+//};
+
+//TempData["message"] = JsonConvert.SerializeObject(msg);
