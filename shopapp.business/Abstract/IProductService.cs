@@ -5,7 +5,7 @@ using System.Text;
 
 namespace shopapp.business.Abstract
 {
-    public interface IProductService
+    public interface IProductService: IValidator<Product>
     {
         Product GetById(int id);
         Product GetByIdWithCategories(int id);
@@ -16,7 +16,7 @@ namespace shopapp.business.Abstract
         List<Product> GetSearchResult(string searchString);
         List<Product> GetAll();
 
-        void Create(Product entity);
+        bool Create(Product entity);
         void Update(Product entity);
         void Delete(Product entity);
         void Update(Product entity, int[] categoryIds);

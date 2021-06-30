@@ -58,24 +58,17 @@ namespace shopapp.webui.Controllers
                     ImageUrl = model.ImageUrl
                 };
 
-                _productService.Create(entity);
-
-                var msg = new AlertMessage()
+                if (_productService.Create(entity))//create bize bool tipinde döner
                 {
-                    Message = $"{entity.Name} isimli ürün eklendi!",
-                    AlertType = "success"
-                };
+                    CreateMessage("Kayıt Eklendi!", "success");
+                    return RedirectToAction("ProductList");
+                }//Eğer bu if, false dönerse Validation metodunda ErrorMessage propertysinin içi dolar. 
+                CreateMessage(_productService.ErrorMessage, "danger");
 
-                TempData["message"] = JsonConvert.SerializeObject(msg);
-                //{"Message":"samsung isimli ürün eklendi!","AlertType":"success"} jsonconvert ile bu şekile çevrilir(Layout ta bu bilgi alınacak)
-
-                return RedirectToAction("ProductList");
-            }
-            else
-            {
                 return View(model);
             }
 
+            return View(model);
         }
 
         public IActionResult CategoryCreate()
@@ -279,6 +272,17 @@ namespace shopapp.webui.Controllers
             _categoryService.DeleteFromCatgory(productId, categoryId);
             return Redirect("/admin/categories/" + categoryId);
 
+        }
+
+        private void CreateMessage(string message, string allertType)
+        {
+            var msg = new AlertMessage()
+            {
+                Message = message,
+                AlertType = allertType
+            };
+            TempData["message"] = JsonConvert.SerializeObject(msg);
+            //{"Message":"samsung isimli ürün eklendi!","AlertType":"success"} jsonconvert ile bu şekile çevrilir(Layout ta bu bilgi alınacak)
         }
 
     }
