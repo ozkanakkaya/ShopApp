@@ -11,11 +11,12 @@ namespace shopapp.webui.Models
     {
         public int ProductId { get; set; }
 
-        [Display(Name = "Name", Prompt = "Enter product name")]
+        [Display(Name = "Name", Prompt = "Ürün ismi giriniz")]
         [Required(ErrorMessage = "Name zorunlu bir alan.")]
-        [StringLength(60, MinimumLength = 5, ErrorMessage = "Ürün ismi 5-10 karakter aralığında olmalıdır.")]
+        [StringLength(60, MinimumLength = 5, ErrorMessage = "Ürün ismi 5-60 karakter aralığında olmalıdır.")]
         public string Name { get; set; }
 
+        [StringLength(60, MinimumLength = 5, ErrorMessage = "Ürün url'si 5-60 karakter aralığında olmalıdır.")]
         [Required(ErrorMessage = "Url zorunlu bir alan.")]
         public string Url { get; set; }
 

@@ -86,24 +86,31 @@ namespace shopapp.webui.Controllers
         [HttpPost]
         public IActionResult CategoryCreate(CategoryModel model)
         {
-            var entity = new Category()
+            if (ModelState.IsValid)
             {
-                Name = model.Name,
-                Url = model.Url
-            };
+                var entity = new Category()
+                {
+                    Name = model.Name,
+                    Url = model.Url
+                };
 
-            _categoryService.Create(entity);
+                _categoryService.Create(entity);
 
-            var msg = new AlertMessage()
-            {
-                Message = $"{entity.Name} isimli kategori eklendi!",
-                AlertType = "success"
-            };
+                var msg = new AlertMessage()
+                {
+                    Message = $"{entity.Name} isimli kategori eklendi!",
+                    AlertType = "success"
+                };
 
-            TempData["message"] = JsonConvert.SerializeObject(msg);
-            //{"Message":"samsung isimli ürün eklendi!","AlertType":"success"} jsonconvert ile bu şekile çevrilir(Layout ta bu bilgi alınacak)
+                TempData["message"] = JsonConvert.SerializeObject(msg);
+                //{"Message":"samsung isimli ürün eklendi!","AlertType":"success"} jsonconvert ile bu şekile çevrilir(Layout ta bu bilgi alınacak)
 
-            return RedirectToAction("CategoryList");
+                return RedirectToAction("CategoryList");
+
+            }
+
+            return View(model);
+
         }
 
 
@@ -199,25 +206,30 @@ namespace shopapp.webui.Controllers
         [HttpPost]
         public IActionResult CategoryEdit(CategoryModel model)
         {
-            var entity = _categoryService.GetById(model.CategoryId);
-            if (entity == null)
+            if (ModelState.IsValid)
             {
-                return NotFound();
+                var entity = _categoryService.GetById(model.CategoryId);
+                if (entity == null)
+                {
+                    return NotFound();
+                }
+                entity.Name = model.Name;
+                entity.Url = model.Url;
+
+                _categoryService.Update(entity);
+
+                var msg = new AlertMessage()
+                {
+                    Message = $"{entity.Name} isimli kategori güncellendi!",
+                    AlertType = "success"
+                };
+
+                TempData["message"] = JsonConvert.SerializeObject(msg);
+
+                return RedirectToAction("CategoryList");
             }
-            entity.Name = model.Name;
-            entity.Url = model.Url;
 
-            _categoryService.Update(entity);
-
-            var msg = new AlertMessage()
-            {
-                Message = $"{entity.Name} isimli kategori güncellendi!",
-                AlertType = "success"
-            };
-
-            TempData["message"] = JsonConvert.SerializeObject(msg);
-
-            return RedirectToAction("CategoryList");
+            return View(model);
         }
 
 
