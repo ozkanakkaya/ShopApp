@@ -24,7 +24,7 @@
             <div class="form-group row">
                 <label asp-for="Description" class="col-sm-2 col-form-label"></label>
                 <div class="col-sm-10">
-                    <textarea class="form-control" asp-for="Description"></textarea>
+                    <textarea id="editor" class="form-control" asp-for="Description"></textarea>
                     <span asp-validation-for="Description" class="text-danger"></span>
 
                 </div>
@@ -56,4 +56,9 @@
 {
     <script src="/modules/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="/modules/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+    <script src="/modules/ckeditor/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('editor');
+    </script>
+
 }
