@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using shopapp.business.Abstract;
 using shopapp.entity;
 using shopapp.webui.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -140,7 +142,7 @@ namespace shopapp.webui.Controllers
         }
 
         [HttpPost]
-        public IActionResult ProductEdit(ProductModel model, int[] categoryIds)
+        public async Task<IActionResult> ProductEdit(ProductModel model, int[] categoryIds, IFormFile file)
         {
             //categoryIds parametresine formdan checked olan checkboxların value bilgisi dizi olarak geliyor.
             if (ModelState.IsValid)//ProductModel de belirttiğimiz tüm kriteler doğruysa
@@ -153,11 +155,22 @@ namespace shopapp.webui.Controllers
                 entity.Name = model.Name;
                 entity.Price = model.Price;
                 entity.Url = model.Url;
-                entity.ImageUrl = model.ImageUrl;
                 entity.Description = model.Description;
                 entity.IsApproved = model.IsApproved;
                 entity.IsHome = model.IsHome;
-               
+
+                if (file != null)//resim yükleme kodu. resim adını entity e yazdık ve resmi images klasörüne kaydettik.
+                {
+                    var extention = Path.GetExtension(file.FileName);//resim uzantısı
+                    var randomName = string.Format($"{Guid.NewGuid()}{extention}");//resim adı
+                    entity.ImageUrl = randomName;
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images", randomName);//kayıt yolu
+
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+                }
 
                 if (_productService.Update(entity, categoryIds))//create bize bool tipinde döner
                 {
