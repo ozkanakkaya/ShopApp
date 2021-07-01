@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace shopapp.webui.Controllers
 {
+    [AutoValidateAntiforgeryToken]
     public class AccountController : Controller
     {
         private UserManager<User> _userManager;//kullanıcı oluşturma, login, parola sıfırlama
@@ -30,6 +31,7 @@ namespace shopapp.webui.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]////get ile gönderilen token bilgisi posta gelmiyorsa bu durumda hata verecek
         public async Task<IActionResult> Login(LoginModel model)
         {
             if (!ModelState.IsValid)
@@ -65,6 +67,7 @@ namespace shopapp.webui.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterModel model)
         {
             if (!ModelState.IsValid)

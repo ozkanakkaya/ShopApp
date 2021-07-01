@@ -57,7 +57,8 @@ namespace shopapp.webui
                 options.Cookie = new CookieBuilder
                 {
                     HttpOnly = true,//cookie yi sadece bir http talebiyle elde et.
-                    Name = ".ShopApp.Security.Cookie"//cookie nin ismi
+                    Name = ".ShopApp.Security.Cookie",//cookie nin ismi
+                    SameSite=SameSiteMode.Strict//session ad sadece kullanıcının bilgisayarındaki cookie ile haberleşmesini ggerektirir. 3. kişi kullanıcının cookiesini kullansa bile adres uyuşmaz.
                 };
             });
 
