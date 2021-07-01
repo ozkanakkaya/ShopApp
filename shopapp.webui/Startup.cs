@@ -49,7 +49,7 @@ namespace shopapp.webui
             });
 
             services.ConfigureApplicationCookie(options => {//tarayıcıda bırakılan bilgiler
-                options.LoginPath = "/account/login";//section ile cookie uyuşmuyorsa yönlendirilecek yer
+                options.LoginPath = "/account/login";//section ile cookie uyuşmuyorsa yönlendirilecek yer yada uygulamaya giriş yapmayan kullanıcıyı yönlendirceği yer
                 options.LogoutPath = "/account/logout";//çıkış yapıldığında yönlendirilecek
                 options.AccessDeniedPath = "/account/accessdenied";//yetki gerektiren sayfalara erişmeyi engeller
                 options.SlidingExpiration = true;//tarayıcılda bırakılan cookie varsayılan olarak 20 dk sonra silinir. Eğer true verilirse, her istek sonrası bu süre yeniden başlar.
@@ -89,6 +89,7 @@ namespace shopapp.webui
             }
             app.UseAuthentication();
             app.UseRouting();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
