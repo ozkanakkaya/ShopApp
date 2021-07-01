@@ -28,6 +28,40 @@ namespace shopapp.webui
             services.AddDbContext<ApplicationContext>(options => options.UseSqlite("Data Source=shopDb"));
             services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<ApplicationContext>().AddDefaultTokenProviders();
 
+
+            services.Configure<IdentityOptions>(options => {
+                // password
+                options.Password.RequireDigit = true;//true ise pass.da sayısal değer zorunlu
+                options.Password.RequireLowercase = true;//küçük harf bulunması zorunlu
+                options.Password.RequireUppercase = true;//büyük harf bulunması zorunlu
+                options.Password.RequiredLength = 6;//min karakter değeri
+                options.Password.RequireNonAlphanumeric = true;//@,-,_ gibi karakterler bulunması zorunlu
+
+                // Lockout                
+                options.Lockout.MaxFailedAccessAttempts = 5;//yanlış parola girme hakkı
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);//yanlış paroladan sonra tekrar giriş süresi
+                options.Lockout.AllowedForNewUsers = true;//yukarıdakinu kullanmak için buraya true dememiz gerekir
+
+                // options.User.AllowedUserNameCharacters = "";//username alırken karakter kısıtlamları
+                options.User.RequireUniqueEmail = true;//aynı mail adresi olamaz
+                options.SignIn.RequireConfirmedEmail = false;//mail onay zorunluluğu
+                options.SignIn.RequireConfirmedPhoneNumber = false;//telefon ile onay zorunlulu
+            });
+
+            services.ConfigureApplicationCookie(options => {//tarayıcıda bırakılan bilgiler
+                options.LoginPath = "/account/login";//section ile cookie uyuşmuyorsa yönlendirilecek yer
+                options.LogoutPath = "/account/logout";//çıkış yapıldığında yönlendirilecek
+                options.AccessDeniedPath = "/account/accessdenied";//yetki gerektiren sayfalara erişmeyi engeller
+                options.SlidingExpiration = true;//tarayıcılda bırakılan cookie varsayılan olarak 20 dk sonra silinir. Eğer true verilirse, her istek sonrası bu süre yeniden başlar.
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(60);//varsayılan süre buradan ayarlanır.
+                options.Cookie = new CookieBuilder
+                {
+                    HttpOnly = true,//cookie yi sadece bir http talebiyle elde et.
+                    Name = ".ShopApp.Security.Cookie"//cookie nin ismi
+                };
+            });
+
+
             services.AddScoped<IProductRepository, EfCoreProductRepository>();//1. parametre çağırıldığında 2. parametreden nesne üretip gönderir.
             services.AddScoped<IProductService, ProductManager>();
 
@@ -53,7 +87,7 @@ namespace shopapp.webui
                 SeedDatabase.Seed();//Oluşturduğumuz fake datadır.
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseAuthentication();
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
