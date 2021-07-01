@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using shopapp.webui.Identity;
 using shopapp.webui.Models;
 using System;
@@ -20,9 +21,42 @@ namespace shopapp.webui.Controllers
             this._signInManager = signInManager;
         }
 
-        public IActionResult Login()
+        public IActionResult Login(string returnUrl=null)// bu parametre Login sayfasındaki name="returnUrl" den gelir. 
         {
-            return View();
+            return View(new LoginModel()
+            {
+                ReturnUrl = returnUrl//Sayfadaki ReturnUrl yi ReturnUrl propertisine atar.
+            });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            // var user = await _userManager.FindByNameAsync(model.UserName);
+            var user = await _userManager.FindByEmailAsync(model.Email);
+
+            if (user == null)
+            {
+                //CreateMessage("Bu e-posta ile daha önce bir hesap oluşturulmamış", "danger");
+                ModelState.AddModelError("", "Bu e-posta ile daha önce hesap oluşturulmamış!");
+                return View(model);
+            }
+
+            var result = await _signInManager.PasswordSignInAsync(user, model.Password, true, false);//ilk true:60 dk süre sonunda cookie silinirve çıkış yapar eğer tekrar istek yoksa. istek olduğunda süre baştan başlar. false ise süre bitiminde çıkış yapılır. , ikinci false:başarısız girişte hesap kilitlenme işlemi
+
+            if (result.Succeeded)
+            {
+                return Redirect(model.ReturnUrl ?? "~/");//~/ home index i temsil eder
+            }
+
+            //CreateMessage("Girilen kullanıcı adı veya parola yanlış", "danger");
+            ModelState.AddModelError("", "Girilen kullanıcı adı veya parola yanlış!");
+            return View(model);
         }
 
         public IActionResult Register()
@@ -57,5 +91,16 @@ namespace shopapp.webui.Controllers
             ModelState.AddModelError("", "Bilinmeyen hata oldu lütfen tekrar deneyiniz.");
             return View(model);
         }
+
+        //private void CreateMessage(string message, string allertType)
+        //{
+        //    var msg = new AlertMessage()
+        //    {
+        //        Message = message,
+        //        AlertType = allertType
+        //    };
+        //    TempData["message"] = JsonConvert.SerializeObject(msg);
+        //    //{"Message":"samsung isimli ürün eklendi!","AlertType":"success"} jsonconvert ile bu şekile çevrilir(Layout ta bu bilgi alınacak)
+        //}
     }
 }
