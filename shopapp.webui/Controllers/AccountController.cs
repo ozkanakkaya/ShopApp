@@ -21,11 +21,11 @@ namespace shopapp.webui.Controllers
             this._signInManager = signInManager;
         }
 
-        public IActionResult Login(string returnUrl=null)// bu parametre Login sayfasındaki name="returnUrl" den gelir. 
+        public IActionResult Login(string returnUrl=null)
         {
             return View(new LoginModel()
             {
-                ReturnUrl = returnUrl//Sayfadaki ReturnUrl yi ReturnUrl propertisine atar.
+                ReturnUrl = returnUrl//yakalanan ReturnUrl yi ReturnUrl propertisine atar ve view a gönderir.
             });
         }
 
@@ -92,15 +92,21 @@ namespace shopapp.webui.Controllers
             return View(model);
         }
 
-        //private void CreateMessage(string message, string allertType)
-        //{
-        //    var msg = new AlertMessage()
-        //    {
-        //        Message = message,
-        //        AlertType = allertType
-        //    };
-        //    TempData["message"] = JsonConvert.SerializeObject(msg);
-        //    //{"Message":"samsung isimli ürün eklendi!","AlertType":"success"} jsonconvert ile bu şekile çevrilir(Layout ta bu bilgi alınacak)
-        //}
-    }
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return Redirect("~/");//home/index
+        }
+
+            //private void CreateMessage(string message, string allertType)
+            //{
+            //    var msg = new AlertMessage()
+            //    {
+            //        Message = message,
+            //        AlertType = allertType
+            //    };
+            //    TempData["message"] = JsonConvert.SerializeObject(msg);
+            //    //{"Message":"samsung isimli ürün eklendi!","AlertType":"success"} jsonconvert ile bu şekile çevrilir(Layout ta bu bilgi alınacak)
+            //}
+        }
 }
