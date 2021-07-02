@@ -49,6 +49,12 @@ namespace shopapp.webui.Controllers
                 return View(model);
             }
 
+            if (!await _userManager.IsEmailConfirmedAsync(user))
+            {
+                ModelState.AddModelError("", "Lütfen e-posta hesabınıza gelen link ile üyeliğinizi onaylayınız!");
+                return View(model);
+            }
+
             var result = await _signInManager.PasswordSignInAsync(user, model.Password, true, false);//ilk true:60 dk süre sonunda cookie silinirve çıkış yapar eğer tekrar istek yoksa. istek olduğunda süre baştan başlar. false ise süre bitiminde çıkış yapılır. , ikinci false:başarısız girişte hesap kilitlenme işlemi
 
             if (result.Succeeded)
@@ -87,6 +93,13 @@ namespace shopapp.webui.Controllers
             if (result.Succeeded)
             {
                 // generate token
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                var url = Url.Action("ConfirmEmail", "Account", new
+                {
+                    userId = user.Id,
+                    token = code
+                });
+                Console.WriteLine(url);
                 // email
                 return RedirectToAction("Login", "Account");
             }
@@ -101,15 +114,38 @@ namespace shopapp.webui.Controllers
             return Redirect("~/");//home/index
         }
 
-            //private void CreateMessage(string message, string allertType)
-            //{
-            //    var msg = new AlertMessage()
-            //    {
-            //        Message = message,
-            //        AlertType = allertType
-            //    };
-            //    TempData["message"] = JsonConvert.SerializeObject(msg);
-            //    //{"Message":"samsung isimli ürün eklendi!","AlertType":"success"} jsonconvert ile bu şekile çevrilir(Layout ta bu bilgi alınacak)
-            //}
+        public async Task<IActionResult> ConfirmEmail(string userId, string token)
+        {
+            if (userId == null || token == null)
+            {
+                CreateMessage("Geçersiz token!", "danger");
+            }
+
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user!=null)
+            {
+                var result = await _userManager.ConfirmEmailAsync(user, token);
+                if (result.Succeeded)
+                {
+                    CreateMessage("Hesabınız onaylanmıştır.", "success");
+                    return View();
+                }
+            }
+            CreateMessage("Hesabınız onaylanmadı!", "warning");
+            return View();
+
         }
+
+            private void CreateMessage(string message, string allertType)
+            {
+                var msg = new AlertMessage()
+                {
+                    Message = message,
+                    AlertType = allertType
+                };
+                TempData["message"] = JsonConvert.SerializeObject(msg);
+                // {"Message":"samsung isimli ürün eklendi!","AlertType":"success"} jsonconvert ile bu şekile çevrilir(Layout ta bu bilgi alınacak)
+            }
+    }
 }

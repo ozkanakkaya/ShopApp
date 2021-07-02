@@ -44,7 +44,7 @@ namespace shopapp.webui
 
                 // options.User.AllowedUserNameCharacters = "";//username alırken karakter kısıtlamları
                 options.User.RequireUniqueEmail = true;//aynı mail adresi olamaz
-                options.SignIn.RequireConfirmedEmail = false;//mail onay zorunluluğu
+                options.SignIn.RequireConfirmedEmail = true;//mail onay zorunluluğu
                 options.SignIn.RequireConfirmedPhoneNumber = false;//telefon ile onay zorunlulu
             });
 
@@ -58,7 +58,7 @@ namespace shopapp.webui
                 {
                     HttpOnly = true,//cookie yi sadece bir http talebiyle elde et.
                     Name = ".ShopApp.Security.Cookie",//cookie nin ismi
-                    SameSite=SameSiteMode.Strict//session ad sadece kullanıcının bilgisayarındaki cookie ile haberleşmesini ggerektirir. 3. kişi kullanıcının cookiesini kullansa bile adres uyuşmaz.
+                    SameSite = SameSiteMode.Strict//session ad sadece kullanıcının bilgisayarındaki cookie ile haberleşmesini ggerektirir. 3. kişi kullanıcının cookiesini kullansa bile adres uyuşmaz.
                 };
             });
 
