@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
@@ -15,12 +16,20 @@ using shopapp.business.Abstract;
 using shopapp.business.Concrete;
 using shopapp.data.Abstract;
 using shopapp.data.Concrete.EfCore;
+using shopapp.webui.EmailServices;
 using shopapp.webui.Identity;
 
 namespace shopapp.webui
 {
     public class Startup
     {
+        //IConfiguration üzerinden appsettings.json içerisindeki bilgilere ulaşabiliyoruz.
+        private IConfiguration _configuration;
+        public Startup(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
@@ -68,6 +77,15 @@ namespace shopapp.webui
 
             services.AddScoped<ICategoryRepository, EfCoreCategoryRepository>();
             services.AddScoped<ICategoryService, CategoryManager>();
+
+            services.AddScoped<IEmailSender, SmtpEmailSender>(i =>
+                new SmtpEmailSender(
+                    _configuration["EmailSender:Host"],
+                    _configuration.GetValue<int>("EmailSender:Port"),
+                    _configuration.GetValue<bool>("EmailSender:EnableSSL"),
+                    _configuration["EmailSender:UserName"],
+                    _configuration["EmailSender:Password"])
+                );
 
             services.AddControllersWithViews();//projeye MVC yap�s�n� getirir
         }

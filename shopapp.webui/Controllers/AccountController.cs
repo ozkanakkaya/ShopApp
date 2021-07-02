@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using shopapp.webui.EmailServices;
 using shopapp.webui.Identity;
 using shopapp.webui.Models;
 using System;
@@ -15,11 +16,13 @@ namespace shopapp.webui.Controllers
     {
         private UserManager<User> _userManager;//kullanıcı oluşturma, login, parola sıfırlama
         private SignInManager<User> _signInManager;//cookie işlemleri yönetimi için hazır Identity sınıfları
+        private IEmailSender _emailSender;
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IEmailSender emailSender)
         {
             this._userManager = userManager;
             this._signInManager = signInManager;
+            this._emailSender = emailSender;
         }
 
         public IActionResult Login(string returnUrl=null)
@@ -99,8 +102,10 @@ namespace shopapp.webui.Controllers
                     userId = user.Id,
                     token = code
                 });
-                Console.WriteLine(url);
+
                 // email
+                await _emailSender.SendEmailAsync(model.Email, "Hesabınızı onaylayınız.", $"Lütfen email hesabınızı onaylamak için linke <a href='https://localhost:44397{url}'>tıklayınız.</a>");
+                
                 return RedirectToAction("Login", "Account");
             }
 
