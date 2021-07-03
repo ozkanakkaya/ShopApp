@@ -4,9 +4,6 @@ using Newtonsoft.Json;
 using shopapp.webui.EmailServices;
 using shopapp.webui.Identity;
 using shopapp.webui.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace shopapp.webui.Controllers
@@ -25,7 +22,7 @@ namespace shopapp.webui.Controllers
             this._emailSender = emailSender;
         }
 
-        public IActionResult Login(string returnUrl=null)
+        public IActionResult Login(string returnUrl = null)
         {
             return View(new LoginModel()
             {
@@ -105,7 +102,7 @@ namespace shopapp.webui.Controllers
 
                 // email
                 await _emailSender.SendEmailAsync(model.Email, "Hesabınızı onaylayınız.", $"Lütfen email hesabınızı onaylamak için linke <a href='https://localhost:44397{url}'>tıklayınız.</a>");
-                
+
                 return RedirectToAction("Login", "Account");
             }
 
@@ -128,7 +125,7 @@ namespace shopapp.webui.Controllers
 
             var user = await _userManager.FindByIdAsync(userId);
 
-            if (user!=null)
+            if (user != null)
             {
                 var result = await _userManager.ConfirmEmailAsync(user, token);
                 if (result.Succeeded)
@@ -142,15 +139,90 @@ namespace shopapp.webui.Controllers
 
         }
 
-            private void CreateMessage(string message, string allertType)
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ForgotPassword(string Email)
+        {
+            if (string.IsNullOrEmpty(Email))
             {
-                var msg = new AlertMessage()
-                {
-                    Message = message,
-                    AlertType = allertType
-                };
-                TempData["message"] = JsonConvert.SerializeObject(msg);
-                // {"Message":"samsung isimli ürün eklendi!","AlertType":"success"} jsonconvert ile bu şekile çevrilir(Layout ta bu bilgi alınacak)
+                CreateMessage("E-posta adresi girilmedi!", "danger");
+                return View();
             }
+
+            var user = await _userManager.FindByEmailAsync(Email);
+
+            if (user == null)
+            {
+                CreateMessage("Kullanıcı bulunamadı!", "danger");
+                return View();
+            }
+
+            var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var url = Url.Action("ResetPassword", "Account", new
+            {
+                userId = user.Id,
+                token = code
+            });
+
+            // email
+            await _emailSender.SendEmailAsync(Email, "Parola Resetleme", $"Lütfen parolanızı resetlemek için linke <a href='https://localhost:44397{url}'>tıklayınız.</a>");
+
+            CreateMessage("Şifre yenileme linkiniz e-posta adresinize gönderildi.", "success");
+
+            return View();
+        }
+
+        public IActionResult ResetPassword(string userId, string token)
+        {
+            if (userId == null || token == null)
+            {
+                return RedirectToAction("Home", "Index");
+            }
+
+            var model = new ResetPasswordModel { Token = token };
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPasswordModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await _userManager.FindByEmailAsync(model.Email);
+
+            if (user == null)
+            {
+                return RedirectToAction("Home", "Index");
+            }
+
+            var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
+
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            CreateMessage("Şifre yenileme başarısız!", "danger");
+
+            return View(model);
+        }
+
+        private void CreateMessage(string message, string allertType)
+        {
+            var msg = new AlertMessage()
+            {
+                Message = message,
+                AlertType = allertType
+            };
+            TempData["message"] = JsonConvert.SerializeObject(msg);
+            // {"Message":"samsung isimli ürün eklendi!","AlertType":"success"} jsonconvert ile bu şekile çevrilir(Layout ta bu bilgi alınacak)
+        }
     }
 }
