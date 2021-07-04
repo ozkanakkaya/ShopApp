@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using shopapp.business.Abstract;
 using shopapp.entity;
 using shopapp.webui.Extensions;
+using shopapp.webui.Identity;
 using shopapp.webui.Models;
 using System;
 using System.Collections.Generic;
@@ -18,12 +20,48 @@ namespace shopapp.webui.Controllers
     public class AdminController : Controller
     {
         private IProductService _productService;
-        ICategoryService _categoryService;
+        private ICategoryService _categoryService;
+        private RoleManager<IdentityRole> _roleManager;
+        private UserManager<User> _userManager;
 
-        public AdminController(IProductService productService, ICategoryService categoryService)
+        public AdminController(IProductService productService, ICategoryService categoryService, RoleManager<IdentityRole> roleManager, UserManager<User> userManager)
         {
             this._productService = productService;
             this._categoryService = categoryService;
+            this._roleManager = roleManager;
+            this._userManager = userManager;
+        }
+
+        public IActionResult RoleList()
+        {
+            return View(_roleManager.Roles);
+        }
+
+        public IActionResult RoleCreate()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RoleCreate(RoleModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _roleManager.CreateAsync(new IdentityRole(model.Name));
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("RoleList");
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                }
+            }
+            return View(model);
         }
 
         public IActionResult ProductList()
