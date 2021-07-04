@@ -16,23 +16,16 @@
     @await Html.PartialAsync("_navbar")
 
 <main class="my-3">
-        <div class="container">     
+    <div class="container">
 
-            @if(TempData["message"]!=null)
-            {
-                var message = JsonConvert.DeserializeObject<AlertMessage>(TempData["message"] as String);
-                //TempData bilgisini string e çeverip deserializeobject e gönderiyoruz. DeserializeObje ise gelen string mesajı yani AlertMessage ı bizim c# ta kullandığımız bilgiye çevirecek.
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="alert alert-@message.AlertType">
-                            @message.Message
-                        </div>
-                    </div>
-                </div>
-            }      
-             
-            @RenderBody()             
-        </div>
+        @if (TempData["message"] != null)
+        {
+            //var message = JsonConvert.DeserializeObject<AlertMessage>(TempData["message"] as String);
+            <partial name="_ResultMessage" model="@(TempData.Get<AlertMessage>("message"))" />
+        }
+
+        @RenderBody()
+    </div>
     </main>
 
     <footer class="py-5 bg-dark text-white text-center">

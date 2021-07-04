@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using shopapp.webui.EmailServices;
+using shopapp.webui.Extensions;
 using shopapp.webui.Identity;
 using shopapp.webui.Models;
 using System.Threading.Tasks;
@@ -113,6 +114,14 @@ namespace shopapp.webui.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
+
+            TempData.Put("message", new AlertMessage()
+            {
+                Title = "Oturum Kapatıldı",
+                Message = "Hesabınız güvenli bir şekilde kapatıldı.",
+                AlertType = "warning"
+            });
+
             return Redirect("~/");//home/index
         }
 
@@ -120,7 +129,13 @@ namespace shopapp.webui.Controllers
         {
             if (userId == null || token == null)
             {
-                CreateMessage("Geçersiz token!", "danger");
+                TempData.Put("message", new AlertMessage()
+                {
+                    Title = "Geçersiz Token",
+                    Message = "Geçertiz token!",
+                    AlertType = "danger"
+                });
+
             }
 
             var user = await _userManager.FindByIdAsync(userId);
@@ -130,11 +145,23 @@ namespace shopapp.webui.Controllers
                 var result = await _userManager.ConfirmEmailAsync(user, token);
                 if (result.Succeeded)
                 {
-                    CreateMessage("Hesabınız onaylanmıştır.", "success");
+                    TempData.Put("message", new AlertMessage()
+                    {
+                        Title = "Hesabınız onaylanmıştır.",
+                        Message = "Hesabınız onaylanmıştır.",
+                        AlertType = "success"
+                    });
                     return View();
                 }
             }
-            CreateMessage("Hesabınız onaylanmadı!", "warning");
+
+            TempData.Put("message", new AlertMessage()
+            {
+                Title = "Hesabınız onaylanmadı!",
+                Message = "Hesabınız onaylanmadı!",
+                AlertType = "warning"
+            });
+
             return View();
 
         }
@@ -149,7 +176,13 @@ namespace shopapp.webui.Controllers
         {
             if (string.IsNullOrEmpty(Email))
             {
-                CreateMessage("E-posta adresi girilmedi!", "danger");
+                TempData.Put("message", new AlertMessage()
+                {
+                    Title = "E-posta adresi girilmedi!",
+                    Message = "E-posta adresi girilmedi!",
+                    AlertType = "danger"
+                });
+                
                 return View();
             }
 
@@ -157,7 +190,13 @@ namespace shopapp.webui.Controllers
 
             if (user == null)
             {
-                CreateMessage("Kullanıcı bulunamadı!", "danger");
+                TempData.Put("message", new AlertMessage()
+                {
+                    Title = "Kullanıcı bulunamadı!",
+                    Message = "Kullanıcı bulunamadı!",
+                    AlertType = "danger"
+                });
+
                 return View();
             }
 
@@ -170,8 +209,13 @@ namespace shopapp.webui.Controllers
 
             // email
             await _emailSender.SendEmailAsync(Email, "Parola Resetleme", $"Lütfen parolanızı resetlemek için linke <a href='https://localhost:44397{url}'>tıklayınız.</a>");
-
-            CreateMessage("Şifre yenileme linkiniz e-posta adresinize gönderildi.", "success");
+            
+            TempData.Put("message", new AlertMessage()
+            {
+                Title = "Şifre yenileme",
+                Message = "Şifre yenileme linkiniz e-posta adresinize gönderildi.",
+                AlertType = "success"
+            });
 
             return View();
         }
@@ -209,20 +253,25 @@ namespace shopapp.webui.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            CreateMessage("Şifre yenileme başarısız!", "danger");
+            TempData.Put("message", new AlertMessage()
+            {
+                Title = "Şifre yenileme",
+                Message = "Şifre yenileme başarısız!",
+                AlertType = "danger"
+            });
 
             return View(model);
         }
 
-        private void CreateMessage(string message, string allertType)
-        {
-            var msg = new AlertMessage()
-            {
-                Message = message,
-                AlertType = allertType
-            };
-            TempData["message"] = JsonConvert.SerializeObject(msg);
-            // {"Message":"samsung isimli ürün eklendi!","AlertType":"success"} jsonconvert ile bu şekile çevrilir(Layout ta bu bilgi alınacak)
-        }
+        //private void CreateMessage(string message, string allertType)
+        //{
+        //    var msg = new AlertMessage()
+        //    {
+        //        Message = message,
+        //        AlertType = allertType
+        //    };
+        //    TempData["message"] = JsonConvert.SerializeObject(msg);
+        //    // {"Message":"samsung isimli ürün eklendi!","AlertType":"success"} jsonconvert ile bu şekile çevrilir(Layout ta bu bilgi alınacak)
+        //}
     }
 }
