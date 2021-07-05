@@ -33,6 +33,11 @@ namespace shopapp.webui.Controllers
             this._userManager = userManager;
         }
 
+        public IActionResult UserList()
+        {
+            return View(_userManager.Users);
+        }
+
         public async Task<IActionResult> RoleEdit(string id)
         {
             var role = await _roleManager.FindByIdAsync(id);
