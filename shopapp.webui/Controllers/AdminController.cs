@@ -33,6 +33,64 @@ namespace shopapp.webui.Controllers
             this._userManager = userManager;
         }
 
+        public async Task<IActionResult> UserEdit(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user != null)
+            {
+                var selectedRoles = await _userManager.GetRolesAsync(user);//kullanıcının rolleri
+                var roles = _roleManager.Roles.Select(i => i.Name);//tüm roller
+
+                ViewBag.Roles = roles;
+                return View(new UserDetailsModel()
+                {
+                    UserId = user.Id,
+                    UserName = user.UserName,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Email = user.Email,
+                    EmailConfirmed = user.EmailConfirmed,
+                    SelectedRoles = selectedRoles
+                });
+            }
+            return Redirect("~/admin/user/list");
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> UserEdit(UserDetailsModel model, string[] selectedRoles)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByIdAsync(model.UserId);
+                if (user != null)
+                {
+                    user.FirstName = model.FirstName;
+                    user.LastName = model.LastName;
+                    user.UserName = model.UserName;
+                    user.Email = model.Email;
+                    user.EmailConfirmed = model.EmailConfirmed;
+
+                    var result = await _userManager.UpdateAsync(user);
+
+                    if (result.Succeeded)
+                    {
+                        var userRoles = await _userManager.GetRolesAsync(user);
+                        selectedRoles = selectedRoles ?? new string[] { };//gelen roller yoksa, boş bir dizi atar.
+
+                        await _userManager.AddToRolesAsync(user, selectedRoles.Except(userRoles).ToArray<string>());//formdan gelen rolleri ile veritabanındaki eski rollerini karşılaştıracak ve aynı rolleri çıkaracak ve daha önce olmayan rolleri eklemiş olacak.
+
+                        await _userManager.RemoveFromRolesAsync(user, userRoles.Except(selectedRoles).ToArray<string>());// veritabanındaki eski roller arasından formdan gelen rolleri çıkaracak geriye kalan, olmaması gereken roller silinecek.
+
+                        return Redirect("/admin/user/list");
+                    }
+                }
+                return Redirect("/admin/user/list");
+            }
+            return View(model);
+
+        }
+
         public IActionResult UserList()
         {
             return View(_userManager.Users);
