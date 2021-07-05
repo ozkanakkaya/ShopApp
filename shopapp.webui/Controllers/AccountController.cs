@@ -263,15 +263,9 @@ namespace shopapp.webui.Controllers
             return View(model);
         }
 
-        //private void CreateMessage(string message, string allertType)
-        //{
-        //    var msg = new AlertMessage()
-        //    {
-        //        Message = message,
-        //        AlertType = allertType
-        //    };
-        //    TempData["message"] = JsonConvert.SerializeObject(msg);
-        //    // {"Message":"samsung isimli ürün eklendi!","AlertType":"success"} jsonconvert ile bu şekile çevrilir(Layout ta bu bilgi alınacak)
-        //}
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
     }
 }

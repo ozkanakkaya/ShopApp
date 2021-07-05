@@ -17,7 +17,7 @@ using static shopapp.webui.Models.RoleModel;
 
 namespace shopapp.webui.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="Admin")]
     public class AdminController : Controller
     {
         private IProductService _productService;
@@ -410,5 +410,6 @@ namespace shopapp.webui.Controllers
             return Redirect("/admin/categories/" + categoryId);
 
         }
+
     }
 }
