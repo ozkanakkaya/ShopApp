@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using static shopapp.webui.Models.RoleModel;
 
 namespace shopapp.webui.Controllers
 {
@@ -30,6 +31,71 @@ namespace shopapp.webui.Controllers
             this._categoryService = categoryService;
             this._roleManager = roleManager;
             this._userManager = userManager;
+        }
+
+        public async Task<IActionResult> RoleEdit(string id)
+        {
+            var role = await _roleManager.FindByIdAsync(id);
+
+            var members = new List<User>();//yukarıdaki rolename e ait olan kullanıcılar
+            var nonMembers = new List<User>();//ait olmayan kullanıcılar
+
+            foreach (var user in _userManager.Users)//tüm kullanıcıları döner
+            {
+                var list = await _userManager.IsInRoleAsync(user, role.Name)?members:nonMembers;
+                //ilgili kullanıcı yukarıdaki role aitse true değilse false döner. True ise list members ın referansını, false ise nonMembers ın referansını alır.
+
+                list.Add(user);
+            }
+
+            var model = new RoleDetails()
+            {
+                Role = role,
+                Members = members,
+                NonMembers = nonMembers
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RoleEdit(RoleEditModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                foreach (var userId in model.IdsToAdd ?? new string[] { })
+                {
+                    var user = await _userManager.FindByIdAsync(userId);
+                    if (user != null)
+                    {
+                        var result = await _userManager.AddToRoleAsync(user, model.RoleName);
+                        if (!result.Succeeded)
+                        {
+                            foreach (var error in result.Errors)
+                            {
+                                ModelState.AddModelError("", error.Description);
+                            }
+                        }
+                    }
+                }
+
+                foreach (var userId in model.IdsToDelete ?? new string[] { })
+                {
+                    var user = await _userManager.FindByIdAsync(userId);
+                    if (user != null)
+                    {
+                        var result = await _userManager.RemoveFromRoleAsync(user, model.RoleName);
+                        if (!result.Succeeded)
+                        {
+                            foreach (var error in result.Errors)
+                            {
+                                ModelState.AddModelError("", error.Description);
+                            }
+                        }
+                    }
+                }
+            }
+            return Redirect("/admin/role/" + model.RoleId);
         }
 
         public IActionResult RoleList()

@@ -22,7 +22,7 @@
                             <td>@item.Id</td>
                             <td>@item.Name</td>
                             <td>
-                                <a href="/admin/role/edit/@item.Id" class="btn btn-primary btn-sm mr-2">Düzenle</a>
+                                <a href="/admin/role/@item.Id" class="btn btn-primary btn-sm mr-2">Düzenle</a>
 
                                 <form action="/admin/role/delete" method="POST" style="display: inline;">
                                     <input type="hidden" name="RoleId" value="@item.Id">
