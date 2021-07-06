@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using shopapp.business.Abstract;
 using shopapp.webui.EmailServices;
 using shopapp.webui.Extensions;
 using shopapp.webui.Identity;
@@ -15,12 +16,14 @@ namespace shopapp.webui.Controllers
         private UserManager<User> _userManager;//kullanıcı oluşturma, login, parola sıfırlama
         private SignInManager<User> _signInManager;//cookie işlemleri yönetimi için hazır Identity sınıfları
         private IEmailSender _emailSender;
+        private ICartService _cartService;
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IEmailSender emailSender)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IEmailSender emailSender, ICartService cartService)
         {
             this._userManager = userManager;
             this._signInManager = signInManager;
             this._emailSender = emailSender;
+            this._cartService = cartService;
         }
 
         public IActionResult Login(string returnUrl = null)
@@ -145,6 +148,9 @@ namespace shopapp.webui.Controllers
                 var result = await _userManager.ConfirmEmailAsync(user, token);
                 if (result.Succeeded)
                 {
+                    //cart objesini oluştur....
+                    _cartService.InitializeCart(userId);
+
                     TempData.Put("message", new AlertMessage()
                     {
                         Title = "Hesabınız onaylanmıştır.",

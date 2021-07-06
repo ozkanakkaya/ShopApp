@@ -78,6 +78,9 @@ namespace shopapp.webui
             services.AddScoped<ICategoryRepository, EfCoreCategoryRepository>();
             services.AddScoped<ICategoryService, CategoryManager>();
 
+            services.AddScoped<ICartRepository, EfCoreCartRepository>();
+            services.AddScoped<ICartService, CartManager>();
+
             services.AddScoped<IEmailSender, SmtpEmailSender>(i =>
                 new SmtpEmailSender(
                     _configuration["EmailSender:Host"],

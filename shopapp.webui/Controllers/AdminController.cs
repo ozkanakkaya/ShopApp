@@ -474,5 +474,33 @@ namespace shopapp.webui.Controllers
 
         }
 
+        [HttpPost]
+        public async Task<IActionResult> DeleteUser(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user != null)
+            {
+                var result = await _userManager.DeleteAsync(user);
+                if (!result.Succeeded)
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                }
+                else
+                {
+                    TempData.Put("message", new AlertMessage()
+                    {
+                        Title = "Silme İşlemi",
+                        Message = $"{user.UserName} isimli kullanıcı silindi!",
+                        AlertType = "success"
+                    });
+                }
+            }
+
+            return Redirect("/admin/user/list");
+            
+        }
     }
 }
