@@ -7,7 +7,7 @@ namespace shopapp.entity
     public class Cart
     {
         public int Id { get; set; }
-        public string UserId { get; set; }
+        public string UserId { get; set; }//kullanıcı email onayı yaptıktan sonra dolar.
         public List<CartItem> CartItems { get; set; }
     }
 }
