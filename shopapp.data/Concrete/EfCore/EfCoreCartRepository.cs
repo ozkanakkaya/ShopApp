@@ -20,5 +20,14 @@ namespace shopapp.data.Concrete.EfCore
                             .FirstOrDefault(i => i.UserId == userId);
             }//userId ye ait ürün bilgilerini getirir.
         }
+
+        public override void Update(Cart entity)
+        {
+            using (var context = new ShopContext())
+            {
+                context.Carts.Update(entity);
+                context.SaveChanges();
+            }
+        }
     }
 }
