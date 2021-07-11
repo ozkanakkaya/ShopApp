@@ -2,25 +2,37 @@
 
 <h1 class="h3">Shopping Cart</h1>
 <hr>
-<div class="row">
-    <div class="col-md-8">
-        <div class="text-left">
-            <h4>Alışveriş Sepetiniz</h4>
+@if (Model.CartItems.Count()==0)
+{
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="alert alert-danger">
+                Sepet Boş
+            </div>
         </div>
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>Product Name</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Total</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (!String.IsNullOrEmpty(Model.CartId.ToString()))
-                {
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-8">
+            <div class="text-left">
+                <h4>Alışveriş Sepetiniz</h4>
+            </div>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Product Name</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+
                     @foreach (var item in Model.CartItems)
                     {
                         <tr>
@@ -32,54 +44,47 @@
                             <td>@item.Quantity</td>
                             <td>@(item.Quantity*item.Price)</td>
                             <td>
-                                <button class="btn btn-danger btn-sm">
-                                    <i class="fa fa-times fa-fw"></i>
-                                </button>
+                                <form asp-controller="Cart" asp-action="DeleteFromCart" method="post">
+                                    <input type="hidden" name="productId" value="@item.ProductId">
+                                    <button type="submit" class="btn btn-danger btn-sm">
+                                        <i class="fa fa-times fa-fw"></i>
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                     }
-                }
-                else
-                {
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="alert alert-danger">
-                                Sepet Boş
-                            </div>
-                        </div>
-                    </div>
-                }
 
-            </tbody>
-        </table>
-    </div>
-    <div class="col-md-4">
-        <div class="text-left">
-            <h4>Sepet Özeti</h4>
+                </tbody>
+            </table>
         </div>
-        <table class="table">
-            <tbody>
-                <tr>
-                    <th>Sepet Toplam Fiyat</th>
-                    <td>@Model.TotalPrice().ToString("c")</td>
-                </tr>
-                <tr>
-                    <th>Kargo</th>
-                    <th>Ücretisiz</th>
-                </tr>
-                <tr>
-                    <th>Şipariş Toplam Fiyat</th>
-                    <td>@Model.TotalPrice().ToString("c")</td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="text-center">
-            <a href="/" class="btn btn-primary">
-                <i class="fa fa-arrow-circle-left fa-fw"></i> Alışverişe Devam Et
-            </a>
-            <a href="/checkout" class="btn btn-primary">
-                <i class="fa fa-arrow-circle-right fa-fw"></i> Tamamla
-            </a>
+        <div class="col-md-4">
+            <div class="text-left">
+                <h4>Sepet Özeti</h4>
+            </div>
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th>Sepet Toplam Fiyat</th>
+                        <td>@Model.TotalPrice().ToString("c")</td>
+                    </tr>
+                    <tr>
+                        <th>Kargo</th>
+                        <th>Ücretsiz</th>
+                    </tr>
+                    <tr>
+                        <th>Şipariş Toplam Fiyat</th>
+                        <td>@Model.TotalPrice().ToString("c")</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="text-center">
+                <a href="/" class="btn btn-primary">
+                    <i class="fa fa-arrow-circle-left fa-fw"></i> Alışverişe Devam Et
+                </a>
+                <a href="/checkout" class="btn btn-primary">
+                    <i class="fa fa-arrow-circle-right fa-fw"></i> Tamamla
+                </a>
+            </div>
         </div>
     </div>
-</div>
+}
