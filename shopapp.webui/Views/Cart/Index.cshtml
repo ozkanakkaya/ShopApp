@@ -4,7 +4,10 @@
 <hr>
 <div class="row">
     <div class="col-md-8">
-        <table class="table hover">
+        <div class="text-left">
+            <h4>Alışveriş Sepetiniz</h4>
+        </div>
+        <table class="table table-hover">
             <thead>
                 <tr>
                     <th></th>
@@ -50,5 +53,33 @@
             </tbody>
         </table>
     </div>
-    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <div class="text-left">
+            <h4>Sepet Özeti</h4>
+        </div>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Sepet Toplam Fiyat</th>
+                    <td>@Model.TotalPrice().ToString("c")</td>
+                </tr>
+                <tr>
+                    <th>Kargo</th>
+                    <th>Ücretisiz</th>
+                </tr>
+                <tr>
+                    <th>Şipariş Toplam Fiyat</th>
+                    <td>@Model.TotalPrice().ToString("c")</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="text-center">
+            <a href="/" class="btn btn-primary">
+                <i class="fa fa-arrow-circle-left fa-fw"></i> Alışverişe Devam Et
+            </a>
+            <a href="/checkout" class="btn btn-primary">
+                <i class="fa fa-arrow-circle-right fa-fw"></i> Tamamla
+            </a>
+        </div>
+    </div>
 </div>
