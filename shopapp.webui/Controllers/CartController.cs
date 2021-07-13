@@ -120,8 +120,8 @@ namespace shopapp.webui.Controllers
 
                 if (payment.Status == "success")
                 {
-                    SaveOrder(model, payment, userId);
-                    ClearCart(userId);
+                    SaveOrder(model, payment, userId);//siparişi veritabanına kaydediyoruz
+                    ClearCart(model.CartModel.CartId);
                     return View("Success");
                 }
                 else
@@ -138,9 +138,9 @@ namespace shopapp.webui.Controllers
             return View(model);
         }
 
-        private void ClearCart(string userId)
+        private void ClearCart(int cartId)
         {
-            throw new NotImplementedException();
+            _cartService.ClearCart(cartId);
         }
 
         private void SaveOrder(OrderModel model, Payment payment, string userId)
