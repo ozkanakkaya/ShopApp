@@ -11,22 +11,22 @@ namespace shopapp.data.Concrete.EfCore
     {
         public static void Seed()
         {
-            var context = new ShopContext();
+            //var context = new ShopContext();
 
-            if (context.Database.GetPendingMigrations().Count() == 0)//Migration sayısı 0 mı?
-            {
-                if (context.Categories.Count() == 0)//kategori sayısı?
-                {
-                    context.Categories.AddRange(Categories);//kategori listesi eklenir
-                }
+            //if (context.Database.GetPendingMigrations().Count() == 0)//Migration sayısı 0 mı?
+            //{
+            //    if (context.Categories.Count() == 0)//kategori sayısı?
+            //    {
+            //        context.Categories.AddRange(Categories);//kategori listesi eklenir
+            //    }
 
-                if (context.Products.Count() == 0)//ürünler sayısı?
-                {
-                    context.Products.AddRange(Products);//ürünlerin listesi eklenir
-                    context.AddRange(ProductCategories);
-                }
-            }
-            context.SaveChanges();
+            //    if (context.Products.Count() == 0)//ürünler sayısı?
+            //    {
+            //        context.Products.AddRange(Products);//ürünlerin listesi eklenir
+            //        context.AddRange(ProductCategories);
+            //    }
+            //}
+            //context.SaveChanges();
         }
 
         private static Category[] Categories =

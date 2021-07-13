@@ -5,6 +5,11 @@ namespace shopapp.data.Concrete.EfCore
 {
     public class ShopContext : DbContext
     {
+        public ShopContext(DbContextOptions options):base(options)
+        {
+
+        }
+
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
 
@@ -14,10 +19,10 @@ namespace shopapp.data.Concrete.EfCore
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlite("Data Source=shopDb");
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlite("Data Source=shopDb");
+        //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
