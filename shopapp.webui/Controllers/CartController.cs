@@ -138,6 +138,47 @@ namespace shopapp.webui.Controllers
             return View(model);
         }
 
+        public IActionResult GetOrders()
+        {
+            var userId = _userManager.GetUserId(User);
+            var orders = _orderService.GetOrders(userId);
+
+            var orderListModel = new List<OrderListModel>();
+
+            OrderListModel orderModel;
+
+            foreach (var order in orders)
+            {
+                orderModel = new OrderListModel();
+
+                orderModel.OrderId = order.Id;
+                orderModel.OrderNumber = order.OrderNumber;
+                orderModel.OrderDate = order.OrderDate;
+                orderModel.Phone = order.Phone;
+                orderModel.FirstName = order.FirstName;
+                orderModel.LastName = order.LastName;
+                orderModel.Email = order.Email;
+                orderModel.Address = order.Adress;
+                orderModel.City = order.City;
+                orderModel.OrderState = order.OrderState;
+                orderModel.PaymentType = order.PaymentType;
+
+                orderModel.OrderItems = order.OrderItems.Select(i => new OrderItemModel()
+                {
+                    OrderItemId = i.Id,
+                    Name = i.Product.Name,
+                    Price = (double)i.Price,
+                    Quantity = i.Quantity,
+                    ImageUrl = i.Product.ImageUrl
+                }).ToList();
+
+                orderListModel.Add(orderModel);
+            }
+
+            return View("Orders", orderListModel);
+        }
+
+
         private void ClearCart(int cartId)
         {
             _cartService.ClearCart(cartId);
