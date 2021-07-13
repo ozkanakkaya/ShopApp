@@ -73,19 +73,16 @@ namespace shopapp.webui
                 };
             });
 
+            //services.AddScoped<IProductRepository, EfCoreProductRepository>();//1. parametre çağırıldığında 2. parametreden nesne üretip gönderir.
+            //services.AddScoped<ICategoryRepository, EfCoreCategoryRepository>();
+            //services.AddScoped<ICartRepository, EfCoreCartRepository>();
+            //services.AddScoped<IOrderRepository, EfCoreOrderRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-            services.AddScoped<IProductRepository, EfCoreProductRepository>();//1. parametre çağırıldığında 2. parametreden nesne üretip gönderir.
             services.AddScoped<IProductService, ProductManager>();
-
-            services.AddScoped<ICategoryRepository, EfCoreCategoryRepository>();
             services.AddScoped<ICategoryService, CategoryManager>();
-
-            services.AddScoped<ICartRepository, EfCoreCartRepository>();
             services.AddScoped<ICartService, CartManager>();
-
-            services.AddScoped<IOrderRepository, EfCoreOrderRepository>();
             services.AddScoped<IOrderService, OrderManager>();
-
 
             services.AddScoped<IEmailSender, SmtpEmailSender>(i =>
                 new SmtpEmailSender(

@@ -105,7 +105,6 @@ namespace shopapp.data.Concrete.EfCore
                     CategoryId = catid
                 }).ToList();
 
-                context.SaveChanges();
             }
         }
     }
