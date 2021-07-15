@@ -109,7 +109,6 @@ namespace shopapp.webui
 
             if (env.IsDevelopment())//ortam değişkenlerine bakar. eğer true dönerse uygulama geliştirme aşamasındayız
             {
-                SeedDatabase.Seed();//Oluşturduğumuz fake datadır.
                 app.UseDeveloperExceptionPage();
             }
             app.UseAuthentication();

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace shopapp.webui.Migrations
 {
-    public partial class addingıdentity : Migration
+    public partial class addingIdentity : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
