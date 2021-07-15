@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace shopapp.entity
@@ -11,7 +12,8 @@ namespace shopapp.entity
         public string Description { get; set; }
         public string ImageUrl { get; set; }
         public bool IsApproved { get; set; }
-        public bool IsHome { get; set; }        
+        public bool IsHome { get; set; }
+        public DateTime DateAdded { get; set; }
         public List<ProductCategory> ProductCategories { get; set; }
 
     }

@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using shopapp.data.Configuration;
 using shopapp.entity;
 
 namespace shopapp.data.Concrete.EfCore
@@ -26,9 +27,8 @@ namespace shopapp.data.Concrete.EfCore
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //ProductCategory tablosunun birincil anahtarlarý verildi
-            modelBuilder.Entity<ProductCategory>()
-                .HasKey(c => new { c.CategoryId, c.ProductId });
+            modelBuilder.ApplyConfiguration(new ProductConfiguration());
+            modelBuilder.ApplyConfiguration(new ProductCategoryConfiguration());
         }
     }
 }

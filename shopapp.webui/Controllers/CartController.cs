@@ -158,7 +158,7 @@ namespace shopapp.webui.Controllers
                 orderModel.FirstName = order.FirstName;
                 orderModel.LastName = order.LastName;
                 orderModel.Email = order.Email;
-                orderModel.Address = order.Adress;
+                orderModel.Address = order.Address;
                 orderModel.City = order.City;
                 orderModel.OrderState = order.OrderState;
                 orderModel.PaymentType = order.PaymentType;
@@ -197,7 +197,7 @@ namespace shopapp.webui.Controllers
             order.FirstName = model.FirstName;
             order.LastName = model.LastName;
             order.UserId = userId;
-            order.Adress = model.Address;
+            order.Address = model.Address;
             order.Phone = model.Phone;
             order.Email = model.Email;
             order.City = model.City;

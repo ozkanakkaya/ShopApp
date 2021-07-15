@@ -77,7 +77,7 @@ namespace shopapp.data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Adress")
+                    b.Property<string>("Address")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("City")
@@ -157,6 +157,11 @@ namespace shopapp.data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<DateTime>("DateAdded")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValueSql("getdate()");
+
                     b.Property<string>("Description")
                         .HasColumnType("TEXT");
 
@@ -170,7 +175,9 @@ namespace shopapp.data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
-                        .HasColumnType("TEXT");
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(100);
 
                     b.Property<double?>("Price")
                         .HasColumnType("REAL");
