@@ -13,8 +13,8 @@ namespace shopapp.data.Configuration
         {
             builder.HasKey(m => m.ProductId);//birincil anahtar
             builder.Property(m => m.Name).IsRequired().HasMaxLength(100);
-            builder.Property(m => m.DateAdded).HasDefaultValueSql("date('now')");//boş geçilirse tarihi atar.
-            //builder.Property(m => m.DateAdded).HasDefaultValueSql("getdate()");// mssql
+            //builder.Property(m => m.DateAdded).HasDefaultValueSql("date('now')");//boş geçilirse tarihi atar.
+            builder.Property(m => m.DateAdded).HasDefaultValueSql("getdate()");// mssql
         }
     }
 }
