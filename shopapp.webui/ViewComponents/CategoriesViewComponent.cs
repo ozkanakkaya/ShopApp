@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using shopapp.business.Abstract;
 
@@ -13,11 +14,11 @@ namespace shopapp.webui.WiewComponents
             this._categoryService = categoryService;
         }
 
-        public IViewComponentResult Invoke()
+        public async Task<IViewComponentResult> InvokeAsync()
         {
             if (RouteData.Values["category"] != null)//List sayfasından idyi almak için category bilgisi olmalı
                 ViewBag.SelectedCategory = RouteData?.Values["category"];//seçilen menüyü aktif etmek için urldeki category bilgisini ViewBag ile tutuyoruz
-            return View(_categoryService.GetAll());
+            return View(await _categoryService.GetAll());
 
         }
     }

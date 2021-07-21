@@ -4,6 +4,7 @@ using shopapp.entity;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace shopapp.business.Concrete
 {
@@ -33,9 +34,9 @@ namespace shopapp.business.Concrete
             _unitOfWork.Categories.DeleteFromCategory(productId, categoryId);
         }
 
-        public List<Category> GetAll()
+        public async Task<List<Category>> GetAll()
         {
-            return _unitOfWork.Categories.GetAll();
+            return await _unitOfWork.Categories.GetAll();
         }
 
         public Category GetById(int id)

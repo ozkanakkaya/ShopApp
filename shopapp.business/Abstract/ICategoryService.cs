@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace shopapp.business.Abstract
 {
@@ -9,7 +10,7 @@ namespace shopapp.business.Abstract
     {
         Category GetById(int id);
         Category GetByIdWithProducts(int categoryId);
-        List<Category> GetAll();
+        Task<List<Category>> GetAll();
 
 
         void Create(Category entity);

@@ -20,9 +20,9 @@ namespace shopapp.webapi.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetProducts()
+        public async Task<IActionResult> GetProducts()
         {
-            var products = _productService.GetAll();
+            var products = await _productService.GetAll();
             return Ok(products);
         }
 

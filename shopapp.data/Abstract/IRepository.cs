@@ -1,11 +1,12 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace shopapp.data.Abstract
 {
     public interface IRepository<T>
     {
         T GetById(int id);
-        List<T> GetAll();
+        Task<List<T>> GetAll();
 
         void Create(T entity);
         void Update(T entity);

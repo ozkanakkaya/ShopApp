@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace shopapp.business.Abstract
 {
@@ -14,7 +15,7 @@ namespace shopapp.business.Abstract
         int GetCountByCategory(string category);
         List<Product> GetHomePageProducts();
         List<Product> GetSearchResult(string searchString);
-        List<Product> GetAll();
+        Task<List<Product>> GetAll();
 
         bool Create(Product entity);
         void Update(Product entity);
