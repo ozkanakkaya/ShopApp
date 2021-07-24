@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using shopapp.business.Abstract;
 using shopapp.entity;
+using shopapp.webapi.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,15 @@ namespace shopapp.webapi.Controllers
         public async Task<IActionResult> GetProducts()
         {
             var products = await _productService.GetAll();
-            return Ok(products);
+
+            var productsDTO = new List<ProductDTO>();
+
+            foreach (var p in products)
+            {
+                productsDTO.Add(ProductToDTO(p));
+            }
+
+            return Ok(productsDTO);
         }
 
         [HttpGet("{id}")]
@@ -35,14 +44,14 @@ namespace shopapp.webapi.Controllers
             {
                 return NotFound(); // 404
             }
-            return Ok(p); // 200
+            return Ok(ProductToDTO(p)); // 200
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateProduct(Product entity)
         {
             await _productService.CreateAsync(entity);
-            return CreatedAtAction(nameof(GetProduct), new { id = entity.ProductId }, entity);
+            return CreatedAtAction(nameof(GetProduct), new { id = entity.ProductId }, ProductToDTO(entity));
         }
 
         [HttpPut("{id}")]
@@ -76,6 +85,19 @@ namespace shopapp.webapi.Controllers
 
             await _productService.DeleteAsync(product);
             return NoContent();
+        }
+
+        private static ProductDTO ProductToDTO(Product p)
+        {
+            return new ProductDTO
+            {
+                ProductId = p.ProductId,
+                Name = p.Name,
+                Url = p.Url,
+                Description = p.Description,
+                Price = p.Price,
+                ImageUrl = p.ImageUrl
+            };
         }
     }
 }
