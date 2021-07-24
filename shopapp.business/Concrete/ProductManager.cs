@@ -116,5 +116,12 @@ namespace shopapp.business.Concrete
 
             return isValid;
         }
+
+        public async Task<Product> CreateAsync(Product entity)
+        {
+            await _unitOfWork.Products.CreateAsync(entity);
+            await _unitOfWork.SaveAsync();
+            return entity;
+        }
     }
 }

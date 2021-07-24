@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace shopapp.data.Concrete.EfCore
 {
@@ -38,6 +39,11 @@ namespace shopapp.data.Concrete.EfCore
         public void Save()
         {
             _context.SaveChanges();
+        }
+
+        public async Task<int> SaveAsync()
+        {
+            return await _context.SaveChangesAsync();
         }
     }
 }

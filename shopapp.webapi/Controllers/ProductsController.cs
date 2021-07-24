@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using shopapp.business.Abstract;
+using shopapp.entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,6 +36,13 @@ namespace shopapp.webapi.Controllers
                 return NotFound(); // 404
             }
             return Ok(p); // 200
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateProduct(Product entity)
+        {
+            await _productService.CreateAsync(entity);
+            return CreatedAtAction(nameof(GetProduct), new { id = entity.ProductId }, entity);
         }
     }
 }

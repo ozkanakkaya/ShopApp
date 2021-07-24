@@ -9,6 +9,7 @@ namespace shopapp.data.Abstract
         Task<List<T>> GetAll();
 
         void Create(T entity);
+        Task CreateAsync(T entity);
         void Update(T entity);
         void Delete(T entity);
     }
