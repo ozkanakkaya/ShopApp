@@ -123,5 +123,14 @@ namespace shopapp.business.Concrete
             await _unitOfWork.SaveAsync();
             return entity;
         }
+
+        public async Task UpdateAsync(Product entityToUpdate, Product entity)
+        {
+            entityToUpdate.Name = entity.Name;
+            entityToUpdate.Price = entity.Price;
+            entityToUpdate.Description = entity.Description;
+
+            await _unitOfWork.SaveAsync();
+        }
     }
 }
