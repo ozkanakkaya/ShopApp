@@ -289,7 +289,7 @@ namespace shopapp.webui.Controllers
         }
 
 
-        public IActionResult ProductEdit(int? id)
+        public async Task<IActionResult> ProductEdit(int? id)
         {
             if (id == null)
             {
@@ -316,7 +316,7 @@ namespace shopapp.webui.Controllers
                 SelectedCategories = entity.ProductCategories.Select(i => i.Category).ToList()
             };
 
-            ViewBag.Categories = _categoryService.GetAll();
+            ViewBag.Categories = await _categoryService.GetAll();
 
             return View(model);
         }
@@ -327,7 +327,7 @@ namespace shopapp.webui.Controllers
             //categoryIds parametresine formdan checked olan checkboxların value bilgisi dizi olarak geliyor.
             if (ModelState.IsValid)//ProductModel de belirttiğimiz tüm kriteler doğruysa
             {
-                var entity = _productService.GetById(model.ProductId);
+                var entity = await _productService.GetById(model.ProductId);
                 if (entity == null)
                 {
                     return NotFound();
@@ -372,7 +372,7 @@ namespace shopapp.webui.Controllers
                 });
             }
 
-            ViewBag.Categories = _categoryService.GetAll();
+            ViewBag.Categories = await _categoryService.GetAll();
 
             return View(model);
         }
@@ -402,11 +402,11 @@ namespace shopapp.webui.Controllers
         }
 
         [HttpPost]
-        public IActionResult CategoryEdit(CategoryModel model)
+        public async Task<IActionResult> CategoryEdit(CategoryModel model)
         {
             if (ModelState.IsValid)
             {
-                var entity = _categoryService.GetById(model.CategoryId);
+                var entity = await _categoryService.GetById(model.CategoryId);
                 if (entity == null)
                 {
                     return NotFound();
@@ -430,9 +430,9 @@ namespace shopapp.webui.Controllers
         }
 
 
-        public IActionResult DeleteProduct(int productId)
+        public async Task<IActionResult> DeleteProduct(int productId)
         {
-            var entity = _productService.GetById(productId);
+            var entity = await _productService.GetById(productId);
 
             if (entity != null)
             {
@@ -449,9 +449,9 @@ namespace shopapp.webui.Controllers
             return RedirectToAction("ProductList");
         }
 
-        public IActionResult DeleteCategory(int categoryId)
+        public async Task<IActionResult> DeleteCategory(int categoryId)
         {
-            var entity = _categoryService.GetById(categoryId);
+            var entity = await _categoryService.GetById(categoryId);
 
             if (entity != null)
             {

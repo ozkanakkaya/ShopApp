@@ -39,9 +39,9 @@ namespace shopapp.business.Concrete
             return await _unitOfWork.Products.GetAll();
         }
 
-        public Product GetById(int id)
+        public async Task<Product> GetById(int id)
         {
-            return _unitOfWork.Products.GetById(id);
+            return await _unitOfWork.Products.GetById(id);
         }
 
         public Product GetByIdWithCategories(int id)
