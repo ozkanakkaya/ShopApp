@@ -132,5 +132,11 @@ namespace shopapp.business.Concrete
 
             await _unitOfWork.SaveAsync();
         }
+
+        public async Task DeleteAsync(Product entity)
+        {
+            _unitOfWork.Products.Delete(entity);
+            await _unitOfWork.SaveAsync();
+        }
     }
 }

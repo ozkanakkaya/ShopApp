@@ -22,6 +22,7 @@ namespace shopapp.business.Abstract
         void Update(Product entity);
         Task UpdateAsync(Product entityToUpdate, Product entity);
         void Delete(Product entity);
+        Task DeleteAsync(Product entity);
         bool Update(Product entity, int[] categoryIds);
     }
 }
